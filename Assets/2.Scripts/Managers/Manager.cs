@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Manager : MonoBehaviour
@@ -55,4 +56,15 @@ public class Manager : MonoBehaviour
         else
             Destroy(this.gameObject);
     }
+
+    private void Start()
+    {
+        StartCoroutine(StepInit());
+    }
+
+    private IEnumerator StepInit()
+    {
+        yield return Data.LoadData();
+    }
+
 }
