@@ -2,11 +2,17 @@ public enum E_Events
 {
     #region 씬 전환 이벤트 0
 
-    EnterMainMenu = 0,
-    EnterBattle,
-    EnterBounsArea,
-    EnterUnknownArea,
+    ChangedMainMenu = 0,
+    ChangedBattle,
+    ChangedBonusArea,
+    ChangedUnknownArea,
+
+    RequestBattle,
+    RequestBonusArea,
+    RequestUnknownArea,
     OutArea,
+
+    StartBattle,
     #endregion
 
     
@@ -15,6 +21,7 @@ public enum E_Events
     
     PlayerTurn = 50,
     EnemyTurn,
+    StageReady,
     StageClear,
     UsedPassiveDeck,
     UsedActiveDeck,
