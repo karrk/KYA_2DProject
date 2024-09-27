@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public struct CharacterStruct
 {
@@ -37,4 +38,12 @@ public struct VolumeStruct
 {
     public float BGM_Volume;
     public float SFX_Volume;
+}
+
+public struct PostionStruct
+{
+    public Vector2 PlayerSpawnPos;
+    public Vector2 PlayerReadyPos;
+    public Vector2 MobSpawnPos;
+    public Vector2 MobReadyPos;
 }
