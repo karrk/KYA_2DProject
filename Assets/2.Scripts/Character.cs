@@ -74,13 +74,16 @@ public class Character : MonoBehaviour, IListener
     private void BattleReady()
     {
         ConnectAnimatorController();
-        Move();
+        MoveToReadyPos();
     }
 
-    private void Move()
+    private void MoveToReadyPos()
     {
+        _anim.SetBool("IsWalk", true);
         transform.position = Manager.Instance.Data.PlayerSpawnPos;
-        transform.DOMove(Manager.Instance.Data.PlayerReadyPos, 2f);
+        transform.DOMove(Manager.Instance.Data.PlayerReadyPos, 4f)
+            .SetEase(Ease.Linear)
+            .OnComplete(()=> { _anim.SetBool("IsWalk", false); });
     }
 
 }
