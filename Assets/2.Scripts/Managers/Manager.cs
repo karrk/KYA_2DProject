@@ -68,6 +68,18 @@ public class Manager : MonoBehaviour
         }
     }
 
+    private EventManager _event = null;
+    public EventManager Event
+    {
+        get
+        {
+            if (_event == null)
+                _event = new EventManager();
+
+            return _event;
+        }
+    }
+
     #endregion
 
     private void Awake()
