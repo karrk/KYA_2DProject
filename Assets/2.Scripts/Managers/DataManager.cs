@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class DataManager
+public class DataManager : IListener
 {
     private const string Address = "https://docs.google.com/spreadsheets/d/1fnA7AIF2ew1lcKoNMuGfEJ2O2yr75v_Uhf6SPx3OjqM";
     private const string TableRange = "B2:E2";
@@ -18,6 +18,10 @@ public class DataManager
     private CSVParser _parser;
 
     public int InitPoolCount => s_data.PoolInitCount;
+    public Vector2 PlayerSpawnPos => s_data.Positions.PlayerSpawnPos;
+    public Vector2 PlayerReadyPos => s_data.Positions.PlayerReadyPos;
+    public Vector2 MobSpawnPos => s_data.Positions.MobSpawnPos;
+    public Vector2 MobReadyPos => s_data.Positions.MobReadyPos;
 
     public DataManager()
     {
@@ -147,12 +151,36 @@ public class DataManager
 
     public DeckStruct GetDeckData(int m_deckId)
     {
-        return s_data._decks[m_deckId];
+        return s_data.Decks[m_deckId];
     }
 
     public Sprite GetDeckImage(int m_deckId)
     {
         return Resources.Load<Sprite>($"DeckImages/{m_deckId}");
+    }
+
+    public void OnEvent(E_Events m_eventType, System.ComponentModel.Component m_order, object m_param)
+    {
+        if(m_eventType == E_Events.ChangedBattle)
+        {
+            if (CheckSpawnPostionValue())
+                GetPostionDatas();
+        }
+    }
+
+    private bool CheckSpawnPostionValue()
+    {
+        return s_data.Positions.PlayerSpawnPos == Vector2.zero;
+    }
+
+    private void GetPostionDatas()
+    {
+        Transform poser = GameObject.FindGameObjectWithTag("Poser").transform;
+
+        s_data.Positions.PlayerSpawnPos = poser.GetChild(0).position;
+        s_data.Positions.PlayerReadyPos = poser.GetChild(1).position;
+        s_data.Positions.MobSpawnPos = poser.GetChild(2).position;
+        s_data.Positions.MobReadyPos = poser.GetChild(3).position;
     }
 }
 

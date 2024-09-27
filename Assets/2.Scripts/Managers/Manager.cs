@@ -91,6 +91,8 @@ public class Manager : MonoBehaviour
         }
         else
             Destroy(this.gameObject);
+
+        AddManagerEvent();
     }
 
     private void Start()
@@ -102,7 +104,12 @@ public class Manager : MonoBehaviour
     {
         yield return Data.LoadData();
 
-        Event.PlayEvent(E_Events.EnterBattle);
+        Event.PlayEvent(E_Events.ChangedBattle);
+    }
+
+    private void AddManagerEvent()
+    {
+        Event.AddListener(E_Events.ChangedBattle,Data);
     }
 
 

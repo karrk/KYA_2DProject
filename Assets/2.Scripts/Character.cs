@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using Unity.Collections;
 using UnityEditor.Animations;
 using UnityEngine;
+using DG.Tweening;
 
-public class Character : MonoBehaviour
+public class Character : MonoBehaviour, IListener
 {
     [SerializeField] private string _name;
     [SerializeField] private int _hp;
@@ -33,7 +34,7 @@ public class Character : MonoBehaviour
     private void Start()
     {
         _anim = GetComponent<Animator>();
-        ConnectAnimatorController();
+        Manager.Instance.Event.AddListener(E_Events.ChangedBattle, this);
     }
 
     private void ConnectAnimatorController()
@@ -61,4 +62,25 @@ public class Character : MonoBehaviour
     {
 
     }
+
+    public void OnEvent(E_Events m_eventType, System.ComponentModel.Component m_order, object m_param)
+    {
+        if(m_eventType == E_Events.ChangedBattle)
+        {
+            BattleReady();
+        }
+    }
+
+    private void BattleReady()
+    {
+        ConnectAnimatorController();
+        Move();
+    }
+
+    private void Move()
+    {
+        transform.position = Manager.Instance.Data.PlayerSpawnPos;
+        transform.DOMove(Manager.Instance.Data.PlayerReadyPos, 2f);
+    }
+
 }
