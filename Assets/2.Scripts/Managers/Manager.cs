@@ -44,6 +44,21 @@ public class Manager : MonoBehaviour
         }
     }
 
+    private static DeckManager _deckManager = null;
+    public static DeckManager DM => _deckManager;
+
+    private static PoolManager _poolManager = null;
+    public static PoolManager Pool
+    {
+        get
+        {
+            if (_poolManager == null)
+                _poolManager = new PoolManager();
+
+            return _poolManager;
+        }
+    }
+
     #endregion
 
     private void Awake()
@@ -59,6 +74,7 @@ public class Manager : MonoBehaviour
 
     private void Start()
     {
+        _deckManager = GetComponent<DeckManager>();
         StartCoroutine(StepInit());
     }
 

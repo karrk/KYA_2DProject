@@ -8,9 +8,16 @@ public class DataManager
     private const string TableRange = "B2:E2";
     private const int SheetID = 0;
 
+    // 데이터 변경이 자유로움
     public var_Data v_data;
+
+    // 변경되지 않을 데이터를 집중시킴
+    // 데이터 변경을 엄격하게 통제, 내부 멤버는 public 으로 설정되어있으나 
+    // 해당 데이터는 데이터매니저를 통해 불러올수 있다.
     private st_Data s_data;
     private CSVParser _parser;
+
+    public int InitPoolCount => s_data.PoolInitCount;
 
     public DataManager()
     {
@@ -18,6 +25,8 @@ public class DataManager
         s_data = new st_Data();
         _parser = new CSVParser();
     }
+
+    #region CSV 관련
 
     private string GetAddreass(string m_range, int m_sheetId)
     {
@@ -133,6 +142,17 @@ public class DataManager
                 Manager.Data.s_data.AddDeckInfo(newDeck);
             }
         }
+    }
+    #endregion
+
+    public DeckStruct GetDeckData(int m_deckId)
+    {
+        return s_data._decks[m_deckId];
+    }
+
+    public Sprite GetDeckImage(int m_deckId)
+    {
+        return Resources.Load<Sprite>($"DeckImages/{m_deckId}");
     }
 }
 
