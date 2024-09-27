@@ -14,7 +14,7 @@ public class ObjectPool : MonoBehaviour
         this.gameObject.name = $"{m_type} Pool";
 
         _pool = new List<IPooledObject>(m_initCount);
-        this._prefab = Manager.Pool.GetPrefab(m_type);
+        this._prefab = Manager.Instance.Pool.GetPrefab(m_type);
 
         CreateObj(m_initCount);
     }

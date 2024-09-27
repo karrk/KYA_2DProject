@@ -8,8 +8,8 @@ public class Manager : MonoBehaviour
 
     #region 각 매니저
 
-    private static GameManager _GM = null;
-    public static GameManager GM
+    private GameManager _GM = null;
+    public GameManager GM
     {
         get
         {
@@ -20,8 +20,8 @@ public class Manager : MonoBehaviour
         }
     }
 
-    private static DataManager _data = null;
-    public static DataManager Data
+    private DataManager _data = null;
+    public DataManager Data
     {
         get
         {
@@ -32,8 +32,8 @@ public class Manager : MonoBehaviour
         }
     }
 
-    private static SettingManager _setting = null;
-    public static SettingManager Setting
+    private SettingManager _setting = null;
+    public SettingManager Setting
     {
         get
         {
@@ -44,11 +44,11 @@ public class Manager : MonoBehaviour
         }
     }
 
-    private static DeckManager _deckManager = null;
-    public static DeckManager DM => _deckManager;
+    private DeckManager _deckManager = null;
+    public DeckManager DM => _deckManager;
 
-    private static PoolManager _poolManager = null;
-    public static PoolManager Pool
+    private PoolManager _poolManager = null;
+    public PoolManager Pool
     {
         get
         {
@@ -81,6 +81,12 @@ public class Manager : MonoBehaviour
     private IEnumerator StepInit()
     {
         yield return Data.LoadData();
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+            Pool.CreatePool(E_PoolType.Deck);
     }
 
 }

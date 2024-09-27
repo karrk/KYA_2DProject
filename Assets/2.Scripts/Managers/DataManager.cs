@@ -109,7 +109,7 @@ public class DataManager
                     newChar.StartDecks.Add(int.Parse(decks[j]));
                 }
 
-                Manager.Data.s_data.AddCharacter((E_Character)i, newChar);
+                Manager.Instance.Data.s_data.AddCharacter((E_Character)i, newChar);
             }
         }
 
@@ -139,7 +139,7 @@ public class DataManager
                 newDeck.SaveDef = datas[(int)E_DeckInfo.SaveDef] == "1" ? true : false;
                 newDeck.Disappear = datas[(int)E_DeckInfo.Disappear] == "1" ? true : false;
 
-                Manager.Data.s_data.AddDeckInfo(newDeck);
+                Manager.Instance.Data.s_data.AddDeckInfo(newDeck);
             }
         }
     }
