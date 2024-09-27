@@ -101,6 +101,9 @@ public class Manager : MonoBehaviour
     private IEnumerator StepInit()
     {
         yield return Data.LoadData();
+
+        Event.PlayEvent(E_Events.EnterBattle);
     }
+
 
 }
