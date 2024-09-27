@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 public class DataManager : IListener
 {
     private const string Address = "https://docs.google.com/spreadsheets/d/1fnA7AIF2ew1lcKoNMuGfEJ2O2yr75v_Uhf6SPx3OjqM";
-    private const string TableRange = "B2:E2";
+    private const string TableRange = "A2";
     private const int SheetID = 0;
 
     // 데이터 변경이 자유로움
@@ -44,16 +44,21 @@ public class DataManager : IListener
 
     public IEnumerator LoadData()
     {
+        UnityWebRequest temp;
+
         UnityWebRequest main = UnityWebRequest.Get(GetAddreass(TableRange,SheetID));
         yield return main.SendWebRequest();
 
         Debug.Log("메인테이블로드 완료");
 
         // 메인테이블데이터
-        string[] infos = UnlockTable(main.downloadHandler.text);
+        string mainTableRange = main.downloadHandler.text;
 
-        UnityWebRequest temp;
+        temp = UnityWebRequest.Get(GetAddreass(mainTableRange, SheetID));
+        yield return temp.SendWebRequest();
 
+        string[] infos = UnlockTable(temp.downloadHandler.text);
+        
         // 캐릭터테이블 데이터 로드
         temp = UnityWebRequest.Get(
             GetAddreass(infos[(int)E_CSVTableType.Character], infos[(int)E_CSVTableType.Character + 1]));
