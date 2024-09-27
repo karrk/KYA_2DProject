@@ -45,7 +45,16 @@ public class Manager : MonoBehaviour
     }
 
     private DeckManager _deckManager = null;
-    public DeckManager DM => _deckManager;
+    public DeckManager DM
+    {
+        get
+        {
+            if (_deckManager == null)
+                _deckManager = new DeckManager();
+
+            return _deckManager;
+        }
+    }
 
     private PoolManager _poolManager = null;
     public PoolManager Pool

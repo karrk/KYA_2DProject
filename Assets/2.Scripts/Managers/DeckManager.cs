@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DeckManager : MonoBehaviour
+public class DeckManager
 {
 
 }
