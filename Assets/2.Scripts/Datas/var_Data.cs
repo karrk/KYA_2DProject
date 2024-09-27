@@ -3,9 +3,11 @@
 /// </summary>
 public class var_Data
 {
-    public string PlayerName;
-    public E_PlayerGrade PlayerGrade;
+    public var_Data()
+    {
+        PlayerData.Decks = new System.Collections.Generic.List<int>();
+    }
 
-    public float BGM_Volume;
-    public float SFX_Volume;
+    public PlayerStruct PlayerData;
+    public VolumeStruct VolumeData;
 }

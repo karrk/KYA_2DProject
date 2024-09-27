@@ -83,19 +83,12 @@ public class Manager : MonoBehaviour
 
     private void Start()
     {
-        _deckManager = GetComponent<DeckManager>();
         StartCoroutine(StepInit());
     }
 
     private IEnumerator StepInit()
     {
         yield return Data.LoadData();
-    }
-
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-            Pool.CreatePool(E_PoolType.Deck);
     }
 
 }
