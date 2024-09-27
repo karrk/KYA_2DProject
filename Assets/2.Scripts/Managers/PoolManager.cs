@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PoolManager
 {
-    private const string PrefabsPath = "Asset/3.Prefabs/PooledObj";
+    private const string PrefabsPath = "Assets/3.Prefabs/PooledObj";
 
     private Dictionary<E_PoolType, ObjectPool> _pools;
     private IPooledObject[] _prefabs;
@@ -17,6 +17,8 @@ public class PoolManager
         RegistPrefabs();
     }
 
+    public ObjectPool GetPool(E_PoolType m_type) { return _pools[m_type]; }
+
     public void CreatePool(E_PoolType m_type)
     {
         ObjectPool newPool = new GameObject().AddComponent<ObjectPool>();
@@ -24,14 +26,16 @@ public class PoolManager
         newPool.gameObject.name = m_type.ToString();
 
         _pools.Add(m_type, newPool);
-        newPool.Initialize(m_type,Manager.Data.InitPoolCount);
+        newPool.Initialize(m_type,Manager.Instance.Data.InitPoolCount);
     }
 
     private void RegistPrefabs()
     {
         for (int i = 0; i < _prefabs.Length; i++)
         {
-            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabsPath);
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{PrefabsPath}/{(E_PoolType)i}.prefab");
+
+            Debug.Log($"{PrefabsPath}/{(E_PoolType)i}");
             _prefabs[i] = prefab.GetComponent<IPooledObject>();
         }
     }

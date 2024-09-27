@@ -19,19 +19,17 @@ public class Deck : MonoBehaviour, IPooledObject
     private E_DeckType _type;
     private string _description;
 
-    public ObjectPool MyPool => throw new System.NotImplementedException();
+    public ObjectPool MyPool => Manager.Instance.Pool.GetPool(E_PoolType.Deck);
 
     public GameObject MyObj => this.gameObject;
 
     public void SetDeckData(int m_idNumber)
     {
-        DeckStruct deckData = Manager.Data.GetDeckData(m_idNumber);
+        DeckStruct deckData = Manager.Instance.Data.GetDeckData(m_idNumber);
         
         this._id = m_idNumber;
         CopyDeckData(deckData);
         SetUIElements();
-
-
     }
 
     private void SetUIElements()
@@ -45,7 +43,7 @@ public class Deck : MonoBehaviour, IPooledObject
 
     private void SetDeckImage()
     {
-        this._deckImage.sprite = Manager.Data.GetDeckImage(this._id);
+        this._deckImage.sprite = Manager.Instance.Data.GetDeckImage(this._id);
     }
 
     private void CopyDeckData(DeckStruct m_source)
