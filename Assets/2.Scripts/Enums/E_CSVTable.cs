@@ -1,7 +1,11 @@
 public enum E_CSVTableType
 {
-    Character = 0,
-    Deck = 2,
+    Character,
+    PlayerDeck,
+    Map,
+    Mob,
+    MobDeck,
+    Size,
 }
 
 #region 캐릭터테이블
@@ -14,6 +18,7 @@ public enum E_Character
 
 public enum E_CharacterStats
 {
+    ID,
     Name,
     HP,
     StartDeck,

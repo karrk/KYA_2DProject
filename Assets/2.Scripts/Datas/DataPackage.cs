@@ -3,6 +3,7 @@ using UnityEngine;
 
 public struct CharacterStruct
 {
+    public int ID;
     public int HP;
     public string Name;
     public List<int> StartDecks;

@@ -6,7 +6,7 @@ public class DataManager : IListener
 {
     private const string Address = "https://docs.google.com/spreadsheets/d/1fnA7AIF2ew1lcKoNMuGfEJ2O2yr75v_Uhf6SPx3OjqM";
     private const string TableRange = "A2";
-    private const int SheetID = 0;
+    private const string MainSheetID = "0";
 
     // 데이터 변경이 자유로움
     public var_Data v_data;
@@ -15,7 +15,6 @@ public class DataManager : IListener
     // 데이터 변경을 엄격하게 통제, 내부 멤버는 public 으로 설정되어있으나 
     // 해당 데이터는 데이터매니저를 통해 불러올수 있다.
     private st_Data s_data;
-    private CSVParser _parser;
 
     public int InitPoolCount => s_data.PoolInitCount;
     public Vector2 PlayerSpawnPos => s_data.Positions.PlayerSpawnPos;
@@ -27,7 +26,6 @@ public class DataManager : IListener
     {
         v_data = new var_Data();
         s_data = new st_Data();
-        _parser = new CSVParser();
     }
 
     #region CSV 관련
@@ -44,45 +42,51 @@ public class DataManager : IListener
 
     public IEnumerator LoadData()
     {
-        UnityWebRequest temp;
+        CSVParser parser = new CSVParser();
+        UnityWebRequest request;
+        string[] dataIDs;
+        string tempRange;
 
-        UnityWebRequest main = UnityWebRequest.Get(GetAddreass(TableRange,SheetID));
-        yield return main.SendWebRequest();
+        yield return TableRequest(out request); // 메인테이블의 범위를 반환받음
+        Debug.Log("메인테이블 로드중..");
 
-        Debug.Log("메인테이블로드 완료");
+        tempRange = request.downloadHandler.text;
+        yield return TableRequest(out request, MainSheetID, tempRange);
+        dataIDs = request.downloadHandler.text.Split(',');
 
-        // 메인테이블데이터
-        string mainTableRange = main.downloadHandler.text;
+        for (int i = 0; i < dataIDs.Length; i++)
+        {
+            yield return TableRequest(out request, dataIDs[i]);
+            
+            tempRange = request.downloadHandler.text;
 
-        temp = UnityWebRequest.Get(GetAddreass(mainTableRange, SheetID));
-        yield return temp.SendWebRequest();
+            yield return TableRequest(out request, dataIDs[i], tempRange);
 
-        string[] infos = UnlockTable(temp.downloadHandler.text);
-        
-        // 캐릭터테이블 데이터 로드
-        temp = UnityWebRequest.Get(
-            GetAddreass(infos[(int)E_CSVTableType.Character], infos[(int)E_CSVTableType.Character + 1]));
-        yield return temp.SendWebRequest();
+            parser.CSVParse((E_CSVTableType)i, request.downloadHandler.text);
 
-        _parser.CharacterDataParse(temp.downloadHandler.text);
-        
-        
-        Debug.Log("캐릭터 데이터 로드완료");
-
-        // 덱 테이블 데이터 로드
-        temp = UnityWebRequest.Get(
-            GetAddreass(infos[(int)E_CSVTableType.Deck], infos[(int)E_CSVTableType.Deck + 1]));
-        yield return temp.SendWebRequest();
-
-        _parser.DeckDataParse(temp.downloadHandler.text);
-
-        Debug.Log("덱 데이터 로드완료");
-
+            Debug.Log($"{(E_CSVTableType)i} 테이블 로드 완료..");
+        }
     }
 
-    private string[] UnlockTable(string m_data)
+    /// <summary>
+    /// 시트 아이디가 별도 지정이 없는경우 메인테이블 로드진행
+    /// </summary>
+    private UnityWebRequestAsyncOperation TableRequest(out UnityWebRequest m_request)
     {
-        return _parser.PartitionCol(m_data);
+        m_request = UnityWebRequest.Get(GetAddreass(TableRange, MainSheetID));
+        return m_request.SendWebRequest();
+    }
+
+    private UnityWebRequestAsyncOperation TableRequest(out UnityWebRequest m_request, string m_sheetID)
+    {
+        m_request = UnityWebRequest.Get(GetAddreass(TableRange, m_sheetID));
+        return m_request.SendWebRequest();
+    }
+
+    private UnityWebRequestAsyncOperation TableRequest(out UnityWebRequest m_request, string m_sheetID, string m_range)
+    {
+        m_request = UnityWebRequest.Get(GetAddreass(m_range, m_sheetID));
+        return m_request.SendWebRequest();
     }
 
     private class CSVParser
@@ -97,7 +101,28 @@ public class DataManager : IListener
             return m_data.Split(',');
         }
 
-        public void CharacterDataParse(string m_charData)
+        public void CSVParse(E_CSVTableType m_requestType,string m_tableData)
+        {
+            switch (m_requestType)
+            {
+                case E_CSVTableType.Character:
+                    CharacterDataParse(m_tableData);
+                    break;
+                case E_CSVTableType.PlayerDeck:
+                    DeckDataParse(m_tableData);
+                    break;
+                case E_CSVTableType.Map:
+                    break;
+                case E_CSVTableType.Mob:
+                    break;
+                case E_CSVTableType.MobDeck:
+                    break;
+                case E_CSVTableType.Size:
+                    break;
+            }
+        }
+
+        private void CharacterDataParse(string m_charData)
         {
             string[] items = PartitionRow(m_charData);
 
@@ -106,10 +131,9 @@ public class DataManager : IListener
                 CharacterStruct newChar = new CharacterStruct();
                 string[] datas = PartitionCol(items[i]); // 캐릭터가 갖는 정보들
 
+                newChar.ID = int.Parse(datas[(int)E_CharacterStats.ID]);
                 newChar.Name = datas[(int)E_CharacterStats.Name];
-
                 newChar.HP = int.Parse(datas[(int)E_CharacterStats.HP]);
-
                 newChar.StartDecks = new System.Collections.Generic.List<int>();
                 string[] decks = datas[(int)E_CharacterStats.StartDeck].Split(";");
 
@@ -122,7 +146,7 @@ public class DataManager : IListener
             }
         }
 
-        public void DeckDataParse(string m_deckData)
+        private void DeckDataParse(string m_deckData)
         {
             string[] items = PartitionRow(m_deckData);
 
