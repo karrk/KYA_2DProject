@@ -242,6 +242,30 @@ public class DataManager : IListener
             }
         }
 
+        private void MobDataParse(string m_mobData)
+        {
+            string[] items = PartitionRow(m_mobData);
+
+            for (int i = 0; i < items.Length; i++)
+            {
+                MonsterStruct newMob = new MonsterStruct();
+                string[] datas = PartitionCol(items[i]);
+
+                newMob.ID = int.Parse(datas[(int)E_MonsterInfo.ID]);
+                newMob.Grade = (E_MonsterGrade)int.Parse(datas[(int)E_MonsterInfo.Grade]);
+                newMob.Name = datas[(int)E_MonsterInfo.Name];
+                newMob.Level = int.Parse(datas[(int)E_MonsterInfo.Level]);
+                newMob.HP = int.Parse(datas[(int)E_MonsterInfo.HP]);
+                newMob.StartDecks = new System.Collections.Generic.List<int>();
+                string[] decks = datas[(int)E_MonsterInfo.StartDeck].Split(';');
+
+                for (int j = 0; j < decks.Length; j++)
+                {
+                    newMob.StartDecks.Add(int.Parse(decks[j]));
+                }
+            }
+        }
+
         private void DeckDataParse(string m_deckData)
         {
             string[] items = PartitionRow(m_deckData);
