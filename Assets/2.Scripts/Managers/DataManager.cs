@@ -140,17 +140,12 @@ public class DataManager : IListener
 
                     for (int i = 0; i < stageData.Length; i++)
                     {
-                        //string[] datas = PartitionCol(stageData[i]); // sheetid + range
                         string[] datas = stageData[i].Split(';');
 
                         yield return Manager.Instance.Data.TableRequest(out request, datas[0], datas[1]);
 
                         MapDataParse(request.downloadHandler.text,i+1);
                     }
-
-                    //yield return Manager.Instance.Data.TableRequest(out request, data[0], data[1]);
-
-                    //MapDataParse(request.downloadHandler.text);
 
                     break;
                 case E_CSVTableType.Mob:
@@ -260,6 +255,7 @@ public class DataManager : IListener
 
                 newDeck.Type = (E_DeckType)int.Parse(datas[(int)E_DeckInfo.Type][0].ToString());
                 newDeck.Grade = (E_DeckGrade)int.Parse(datas[(int)E_DeckInfo.Grade][0].ToString());
+                newDeck.UseType = (E_DeckUseType)int.Parse(datas[(int)E_DeckInfo.UseType][0].ToString());
 
                 newDeck.Name = datas[(int)E_DeckInfo.Name];
 
