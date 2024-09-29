@@ -41,6 +41,8 @@ public class WaitManager
             {
                 waiter.StartNextAction(m_eventType);
             }
+
+            _waitCounter[m_eventType] = 0;
         }
     }
 }
