@@ -17,6 +17,17 @@ public class st_Data
 
     #endregion
 
+    #region ∏ÛΩ∫≈Õ
+
+    public List<MonsterStruct> Monsters = new List<MonsterStruct>();
+
+    public void AddMob(MonsterStruct m_mobData)
+    {
+        Monsters.Add(m_mobData);
+    }
+
+    #endregion
+
     #region µ¶
 
     public List<DeckStruct> Decks = new List<DeckStruct>();

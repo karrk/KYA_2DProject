@@ -149,6 +149,7 @@ public class DataManager : IListener
 
                     break;
                 case E_CSVTableType.Mob:
+                    MobDataParse(m_tableData);
                     break;
                 case E_CSVTableType.MobDeck:
                     break;
@@ -252,7 +253,7 @@ public class DataManager : IListener
                 string[] datas = PartitionCol(items[i]);
 
                 newMob.ID = int.Parse(datas[(int)E_MonsterInfo.ID]);
-                newMob.Grade = (E_MonsterGrade)int.Parse(datas[(int)E_MonsterInfo.Grade]);
+                newMob.Grade = (E_MonsterGrade)int.Parse(datas[(int)E_MonsterInfo.Grade].Split('.')[0]);
                 newMob.Name = datas[(int)E_MonsterInfo.Name];
                 newMob.Level = int.Parse(datas[(int)E_MonsterInfo.Level]);
                 newMob.HP = int.Parse(datas[(int)E_MonsterInfo.HP]);
@@ -263,6 +264,8 @@ public class DataManager : IListener
                 {
                     newMob.StartDecks.Add(int.Parse(decks[j]));
                 }
+
+                Manager.Instance.Data.s_data.AddMob(newMob);
             }
         }
 
@@ -299,6 +302,16 @@ public class DataManager : IListener
     }
     #endregion
 
+    public CharacterStruct GetCharacterData(int m_charId)
+    {
+        return s_data.Characters[m_charId];
+    }
+
+    public MonsterStruct GetMobData(int m_mobId)
+    {
+        return s_data.Monsters[m_mobId];
+    }
+
     public DeckStruct GetDeckData(int m_deckId)
     {
         return s_data.Decks[m_deckId];
@@ -311,7 +324,7 @@ public class DataManager : IListener
 
     public void OnEvent(E_Events m_eventType, System.ComponentModel.Component m_order, object m_param)
     {
-        if(m_eventType == E_Events.ChangedBattle)
+        if(m_eventType == E_Events.ChangedBattleScene)
         {
             if (CheckSpawnPostionValue())
                 GetPostionDatas();
