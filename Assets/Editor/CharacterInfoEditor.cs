@@ -20,7 +20,7 @@ public class CharacterInfoEditor : Editor
             {
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField($"µ¦ ID : {e.Key}",GUILayout.Width(60f));
-                EditorGUILayout.LabelField($"µ¦ÀÌ¸§ : {Manager.Instance.Data.GetDeckData(e.Key).Name}", GUILayout.Width(150f));
+                EditorGUILayout.LabelField($"µ¦ÀÌ¸§ : {Manager.Instance.Data.GetPlayerDeckData(e.Key).Name}", GUILayout.Width(150f));
                 EditorGUILayout.LabelField($"°¹¼ö : {e.Value}");
                 EditorGUILayout.EndHorizontal();
             }

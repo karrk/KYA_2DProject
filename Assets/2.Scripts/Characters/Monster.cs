@@ -17,7 +17,7 @@ public class Monster : Character
     {
         base.Initialilze();
         _charInfo = new MobInfo();
-        (_charInfo as MobInfo).CopyMobData(Random.Range(1,4));
+        (_charInfo as MobInfo).CopyMobData(Random.Range(0,3));
     }
 
     public void MobReady()
