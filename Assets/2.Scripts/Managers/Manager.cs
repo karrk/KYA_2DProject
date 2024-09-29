@@ -124,5 +124,4 @@ public class Manager : MonoBehaviour
         Event.AddListener(E_Events.ChangedBattleScene,Data);
     }
 
-
 }

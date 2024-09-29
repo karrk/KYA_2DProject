@@ -7,6 +7,9 @@ public class MonstersController : MonoBehaviour, IListener, IWaiter
     // depth에 맞는 랜덤스폰
 
     private Monster[] _monsters;
+    public Monster this[int idx] { get { return _monsters[idx]; } }
+
+    public int MonsterCount => _monsters.Length - 1;
 
     private void Start()
     {

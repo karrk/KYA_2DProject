@@ -25,7 +25,7 @@ public class PlayerCharacter : Character, IListener, IWaiter
             Ready();
     }
 
-    private void Initialilze()
+    protected override void Initialilze()
     {
         base.Initialilze();
         (_charInfo as PlayerCharacterInfo).CopyCharacterData(Manager.Instance.Data.v_data.PlayerData.SelectedCharacterID);
