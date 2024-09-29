@@ -38,6 +38,11 @@ public class st_Data
 
     public PostionStruct Positions;
 
+    #endregion
+
+    #region ∏  µ•¿Ã≈Õ
+
+    public MapStruct[] MapDataList;
 
     #endregion
 }

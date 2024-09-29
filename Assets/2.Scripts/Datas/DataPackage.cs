@@ -48,3 +48,9 @@ public struct PostionStruct
     public Vector2 MobSpawnPos;
     public Vector2 MobReadyPos;
 }
+
+public class MapStruct // ºÐÇÒ
+{
+    public E_RoomType[,] RoomTypes;
+    public string[,] NextPaths;
+}

@@ -57,4 +57,16 @@ public enum E_DeckInfo
     Disappear,
 }
 
+public enum E_RoomType
+{
+    None,
+    B, // 보스
+    N, // 노멀몹
+    E, // 엘리트몹
+    R, // 휴식
+    U, // 미지
+    S, // 상인
+    C, // 보물
+}
+
 #endregion

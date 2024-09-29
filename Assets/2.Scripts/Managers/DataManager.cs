@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -62,10 +63,28 @@ public class DataManager : IListener
 
             yield return TableRequest(out request, dataIDs[i], tempRange);
 
-            parser.CSVParse((E_CSVTableType)i, request.downloadHandler.text);
+            yield return parser.CSVParse((E_CSVTableType)i, request.downloadHandler.text);
 
             Debug.Log($"{(E_CSVTableType)i} 테이블 로드 완료..");
         }
+    }
+
+    private void SetMapCount(int m_count)
+    {
+        this.s_data.MapDataList = new MapStruct[m_count];
+    }
+
+    private void SetMapSize(int m_stageNumber,int m_y,int m_x)
+    {
+        this.s_data.MapDataList[m_stageNumber] = new MapStruct();
+        this.s_data.MapDataList[m_stageNumber].RoomTypes = new E_RoomType[m_y, m_x];
+        this.s_data.MapDataList[m_stageNumber].NextPaths = new string[m_y, m_x];
+    }
+
+    private void SetMapData(int m_stageNumber,int m_y, int m_x, E_RoomType m_type, string m_nextPath)
+    {
+        this.s_data.MapDataList[m_stageNumber].RoomTypes[m_y, m_x] = m_type;
+        this.s_data.MapDataList[m_stageNumber].NextPaths[m_y, m_x] = m_nextPath;
     }
 
     /// <summary>
@@ -101,7 +120,7 @@ public class DataManager : IListener
             return m_data.Split(',');
         }
 
-        public void CSVParse(E_CSVTableType m_requestType,string m_tableData)
+        public IEnumerator CSVParse(E_CSVTableType m_requestType,string m_tableData)
         {
             switch (m_requestType)
             {
@@ -112,6 +131,27 @@ public class DataManager : IListener
                     DeckDataParse(m_tableData);
                     break;
                 case E_CSVTableType.Map:
+                    //1287715732;E2:J6
+                    //1287715732; ?:?
+                    UnityWebRequest request;
+
+                    string[] stageData = PartitionRow(m_tableData);
+                    Manager.Instance.Data.SetMapCount(stageData.Length+1);
+
+                    for (int i = 0; i < stageData.Length; i++)
+                    {
+                        //string[] datas = PartitionCol(stageData[i]); // sheetid + range
+                        string[] datas = stageData[i].Split(';');
+
+                        yield return Manager.Instance.Data.TableRequest(out request, datas[0], datas[1]);
+
+                        MapDataParse(request.downloadHandler.text,i+1);
+                    }
+
+                    //yield return Manager.Instance.Data.TableRequest(out request, data[0], data[1]);
+
+                    //MapDataParse(request.downloadHandler.text);
+
                     break;
                 case E_CSVTableType.Mob:
                     break;
@@ -119,6 +159,67 @@ public class DataManager : IListener
                     break;
                 case E_CSVTableType.Size:
                     break;
+            }
+        }
+
+        private void MapDataParse(string m_mapData,int m_stageNumber)
+        {
+            string[] items = PartitionRow(m_mapData);
+            string[] datas = PartitionCol(items[0]); // B 000 , 0 , N 010
+            string tempData;
+
+            Manager.Instance.Data.SetMapSize(m_stageNumber, items.Length, datas.Length);
+
+            for (int i = 0; i < items.Length; i++)
+            {
+                datas = PartitionCol(items[i]); // depth datas
+
+                for (int j = 0; j < datas.Length; j++)
+                {
+                    tempData = datas[j];
+
+                    if (tempData[0] == '0')
+                        continue;
+
+                    Manager.Instance.Data.SetMapData(m_stageNumber, i, j,
+                        GetRoomType(tempData[0]), GetRoomNextPath(tempData));
+                }
+            }
+
+            E_RoomType GetRoomType(char m_firstChar)
+            {
+                switch (m_firstChar)
+                {
+                    case 'B':
+                        return E_RoomType.B;
+
+                    case 'N':
+                        return E_RoomType.N;
+
+                    case 'E':
+                        return E_RoomType.E;
+
+                    case 'R':
+                        return E_RoomType.R;
+
+                    case 'U':
+                        return E_RoomType.U;
+
+                    case 'S':
+                        return E_RoomType.S;
+                        
+                    case 'C':
+                        return E_RoomType.C;
+                        
+                    default:
+                        throw new ArgumentException("룸 타입정보 파싱에러 : " +
+                            "CSV 에 정의된 룸타입값 확인요망");
+                }
+            }
+
+            string GetRoomNextPath(string m_data)
+            {
+                return m_data.Substring(1);
             }
         }
 
