@@ -31,8 +31,9 @@ public struct PlayerStruct
 {
     public string NickName;
     public E_PlayerGrade Grade;
-    public Character Char;
-    public int Gold;
+    public int SelectedCharacterID;
+    public int TotalGold;
+    public int RoundGold;
     public List<int> Decks;
 }
 
