@@ -1,17 +1,15 @@
-using System.Collections.Generic;
-using Unity.Collections;
 using UnityEditor.Animations;
 using UnityEngine;
 using DG.Tweening;
 
-public abstract class Character : MonoBehaviour, IListener
+public abstract class Character : MonoBehaviour
 {
-    [SerializeField] private CharacterInfo _charInfo = new CharacterInfo();
+    [SerializeField] protected CharacterInfo _charInfo;
     public CharacterInfo CharacterInfo => _charInfo;
     private Animator _anim;
 
-    protected abstract Vector2 _spawnPos { get; }
-    protected abstract Vector2 _readyPos { get; }
+    protected abstract Vector2 SpawnPos { get; }
+    protected abstract Vector2 ReadyPos { get; }
 
     private E_CharacterState _state = E_CharacterState.None;
     public E_CharacterState State
@@ -38,13 +36,12 @@ public abstract class Character : MonoBehaviour, IListener
         }
     }
 
-    private void Start()
+    protected virtual void Initialilze()
     {
         _anim = GetComponent<Animator>();
-        Manager.Instance.Event.AddListener(E_Events.ChangedBattle, this);
     }
 
-    private void ConnectAnimatorController()
+    protected void ConnectAnimatorController()
     {
         _anim.runtimeAnimatorController =
             Resources.Load<AnimatorController>($"Animators/{_charInfo.Name}");
@@ -58,25 +55,11 @@ public abstract class Character : MonoBehaviour, IListener
 
     protected abstract void DeadAction();
 
-    public void OnEvent(E_Events m_eventType, System.ComponentModel.Component m_order, object m_param)
-    {
-        if(m_eventType == E_Events.ChangedBattle)
-        {
-            BattleReady();
-        }
-    }
-
-    private void BattleReady()
-    {
-        ConnectAnimatorController();
-        MoveToReadyPos();
-    }
-
-    private void MoveToReadyPos()
+    protected void MoveToReadyPos()
     {
         _anim.SetBool("IsWalk", true);
-        transform.position = _spawnPos;
-        transform.DOMove(_readyPos, 4f).SetEase(Ease.Linear)
+        transform.position = SpawnPos;
+        transform.DOMove(ReadyPos, 4f).SetEase(Ease.Linear)
             .OnComplete(() => { _anim.SetBool("IsWalk", false); });
     }
 
@@ -85,9 +68,11 @@ public abstract class Character : MonoBehaviour, IListener
 
     }
 
+    protected abstract void DisConnectEvents();
+
     private void OnDisable()
     {
-        Manager.Instance.Event.RemoveListener(E_Events.ChangedBattle,this);
+        DisConnectEvents();
     }
 
 }

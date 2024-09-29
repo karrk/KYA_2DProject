@@ -7,9 +7,27 @@ public class Monster : Character
     [SerializeField] private int _monsterNumber;
     public int MonsterNumber => _monsterNumber;
 
-    protected override Vector2 _spawnPos => throw new System.NotImplementedException();
+    protected override Vector2 SpawnPos => _spawnPos;
+    protected override Vector2 ReadyPos => _readyPos;
 
-    protected override Vector2 _readyPos => throw new System.NotImplementedException();
+    private Vector2 _spawnPos;
+    private Vector2 _readyPos;
+
+    public void MobInitialize()
+    {
+        base.Initialilze();
+        _charInfo = new MobInfo();
+        (_charInfo as MobInfo).CopyMobData(Random.Range(1,4));
+    }
+
+    public void MobReady()
+    {
+        base.ConnectAnimatorController();
+        base.MoveToReadyPos();
+    }
+
+    public void SetSpawnPos( Vector2 m_pos) { this._spawnPos = m_pos; }
+    public void SetReadyPos( Vector2 m_pos) { this._readyPos = m_pos; }
 
     protected override void AttackAction()
     {
@@ -19,6 +37,11 @@ public class Monster : Character
     protected override void DeadAction()
     {
         throw new System.NotImplementedException();
+    }
+
+    protected override void DisConnectEvents()
+    {
+
     }
 
     protected override void IdelAction()
