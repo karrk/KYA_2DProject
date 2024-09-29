@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonstersController : MonoBehaviour, IListener
+public class MonstersController : MonoBehaviour, IListener, IWaiter
 {
     // depth에 맞는 랜덤스폰
 
@@ -90,5 +90,15 @@ public class MonstersController : MonoBehaviour, IListener
     private void OnDisable()
     {
         Manager.Instance.Event.RemoveListener(E_Events.ChangedBattleScene, this);
+    }
+
+    public void StartNextAction(E_Events m_prevEvent)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void SendFinishSign(E_Events m_finEvent)
+    {
+        throw new System.NotImplementedException();
     }
 }

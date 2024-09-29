@@ -67,12 +67,4 @@ public abstract class Character : MonoBehaviour
     {
 
     }
-
-    protected abstract void DisConnectEvents();
-
-    private void OnDisable()
-    {
-        DisConnectEvents();
-    }
-
 }

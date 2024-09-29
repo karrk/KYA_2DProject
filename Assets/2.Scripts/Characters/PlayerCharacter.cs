@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCharacter : Character, IListener
+public class PlayerCharacter : Character, IListener, IWaiter
 {
     protected override Vector2 SpawnPos => Manager.Instance.Data.PlayerSpawnPos;
 
@@ -58,8 +58,13 @@ public class PlayerCharacter : Character, IListener
         throw new System.NotImplementedException();
     }
 
-    protected override void DisConnectEvents()
+    public void StartNextAction(E_Events m_prevEvent)
     {
+        throw new System.NotImplementedException();
+    }
 
+    public void SendFinishSign(E_Events m_finEvent)
+    {
+        throw new System.NotImplementedException();
     }
 }

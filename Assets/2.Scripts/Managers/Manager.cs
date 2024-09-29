@@ -80,6 +80,18 @@ public class Manager : MonoBehaviour
         }
     }
 
+    private WaitManager _wait = null;
+    public WaitManager Wait
+    {
+        get
+        {
+            if (_wait == null)
+                _wait = new WaitManager();
+
+            return _wait;
+        }
+    }
+
     #endregion
 
     private void Awake()
@@ -104,12 +116,12 @@ public class Manager : MonoBehaviour
     {
         yield return Data.LoadData();
 
-        Event.PlayEvent(E_Events.ChangedBattle);
+        Event.PlayEvent(E_Events.ChangedBattleScene);
     }
 
     private void AddManagerEvent()
     {
-        Event.AddListener(E_Events.ChangedBattle,Data);
+        Event.AddListener(E_Events.ChangedBattleScene,Data);
     }
 
 

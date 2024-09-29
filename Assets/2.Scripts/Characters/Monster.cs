@@ -39,11 +39,6 @@ public class Monster : Character
         throw new System.NotImplementedException();
     }
 
-    protected override void DisConnectEvents()
-    {
-
-    }
-
     protected override void IdelAction()
     {
         throw new System.NotImplementedException();
