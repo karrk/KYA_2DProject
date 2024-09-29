@@ -30,12 +30,13 @@ public class st_Data
 
     #region µ¦
 
-    public List<DeckStruct> Decks = new List<DeckStruct>();
+    public List<PlayerDeckStruct> PlayerDecks = new List<PlayerDeckStruct>();
 
-    public void AddDeckInfo(DeckStruct m_deck)
-    {
-        Decks.Add(m_deck);
-    }
+    public void AddDeckInfo(PlayerDeckStruct m_deck) { PlayerDecks.Add(m_deck); }
+
+    public List<MobDeckStruct> MobDecks = new List<MobDeckStruct>();
+
+    public void AddDeckInfo(MobDeckStruct m_deck) { MobDecks.Add(m_deck); }
 
     #endregion
 

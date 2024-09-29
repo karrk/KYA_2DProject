@@ -9,7 +9,7 @@ public struct CharacterStruct
     public List<int> StartDecks;
 }
 
-public struct DeckStruct
+public struct PlayerDeckStruct
 {
     public int ID;
 
@@ -25,6 +25,25 @@ public struct DeckStruct
     public bool SaveDef;
     public bool Disappear;
     public E_DeckUseType UseType;
+}
+
+public struct MobDeckStruct
+{
+    public int ID;
+
+    public E_DeckType Type;
+    public string Name;
+    public int Cost;
+    public E_DeckUseType UseType;
+    public int Atk;
+    public int Def;
+    public int NextTurnPlusPower;
+    public float DecreasePowerPercent;
+    public int[] N_turnAction;
+    public int SteelGold;
+    public bool Runaway;
+    public bool Disappear;
+    public int Heal;
 }
 
 public struct PlayerStruct
@@ -59,6 +78,8 @@ public struct PostionStruct
     public Vector2 PlayerReadyPos;
     public Vector2 MobSpawnPos;
     public Vector2 MobReadyPos;
+    public Vector2 DeckSpawnPos;
+    public Vector2 DeckReadyPos;
 }
 
 public class MapStruct // ºÐÇÒ

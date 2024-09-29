@@ -47,7 +47,7 @@ public enum E_DeckUseType
     Targetting,
 }
 
-public enum E_DeckInfo
+public enum E_PlayerDeckInfo
 {
     ID,
     Type,
@@ -62,6 +62,26 @@ public enum E_DeckInfo
     SelfAtk,
     SaveDef,
     Disappear,
+    Heal,
+}
+
+public enum E_MobDeckInfo
+{
+    ID,
+    Type,
+    Name,
+    Cost,
+    UseType,
+    Atk,
+    Def,
+    NextTurnPlusPower,
+    DecreasePowerPercent,
+    PushDeck,
+    N_TurnAction,
+    SteelGold,
+    Runaway,
+    Disappear,
+    Heal,
 }
 
 #endregion

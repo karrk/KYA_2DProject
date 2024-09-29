@@ -13,7 +13,7 @@ public class DataManager : IListener
     public var_Data v_data;
 
     // 변경되지 않을 데이터를 집중시킴
-    // 데이터 변경을 엄격하게 통제, 내부 멤버는 public 으로 설정되어있으나 
+    // 데이터 변경을 엄격하게 통제, 내부 멤버는 public 으로 설정되어있으나
     // 해당 데이터는 데이터매니저를 통해 불러올수 있다.
     private st_Data s_data;
 
@@ -22,6 +22,8 @@ public class DataManager : IListener
     public Vector2 PlayerReadyPos => s_data.Positions.PlayerReadyPos;
     public Vector2 MobSpawnPos => s_data.Positions.MobSpawnPos;
     public Vector2 MobReadyPos => s_data.Positions.MobReadyPos;
+    public Vector2 DeckSpawnPos => s_data.Positions.DeckSpawnPos;
+    public Vector2 DeckReadyPos => s_data.Positions.DeckReadyPos;
 
     public DataManager()
     {
@@ -128,7 +130,7 @@ public class DataManager : IListener
                     CharacterDataParse(m_tableData);
                     break;
                 case E_CSVTableType.PlayerDeck:
-                    DeckDataParse(m_tableData);
+                    PlayerDeckDataParse(m_tableData);
                     break;
                 case E_CSVTableType.Map:
                     //1287715732;E2:J6
@@ -152,8 +154,7 @@ public class DataManager : IListener
                     MobDataParse(m_tableData);
                     break;
                 case E_CSVTableType.MobDeck:
-                    break;
-                case E_CSVTableType.Size:
+                    MobDeckDataParse(m_tableData);
                     break;
             }
         }
@@ -269,32 +270,66 @@ public class DataManager : IListener
             }
         }
 
-        private void DeckDataParse(string m_deckData)
+        private void PlayerDeckDataParse(string m_deckData)
         {
             string[] items = PartitionRow(m_deckData);
 
             for (int i = 0; i < items.Length; i++)
             {
-                DeckStruct newDeck = new DeckStruct();
+                PlayerDeckStruct newDeck = new PlayerDeckStruct();
                 string[] datas = PartitionCol(items[i]);
 
-                newDeck.ID = int.Parse(datas[(int)E_DeckInfo.ID]);
+                newDeck.ID = int.Parse(datas[(int)E_PlayerDeckInfo.ID]);
 
-                newDeck.Type = (E_DeckType)int.Parse(datas[(int)E_DeckInfo.Type][0].ToString());
-                newDeck.Grade = (E_DeckGrade)int.Parse(datas[(int)E_DeckInfo.Grade][0].ToString());
-                newDeck.UseType = (E_DeckUseType)int.Parse(datas[(int)E_DeckInfo.UseType][0].ToString());
+                newDeck.Type = (E_DeckType)int.Parse(datas[(int)E_PlayerDeckInfo.Type][0].ToString());
+                newDeck.Grade = (E_DeckGrade)int.Parse(datas[(int)E_PlayerDeckInfo.Grade][0].ToString());
+                newDeck.UseType = (E_DeckUseType)int.Parse(datas[(int)E_PlayerDeckInfo.UseType][0].ToString());
 
-                newDeck.Name = datas[(int)E_DeckInfo.Name];
+                newDeck.Name = datas[(int)E_PlayerDeckInfo.Name];
 
-                newDeck.Cost = int.Parse(datas[(int)E_DeckInfo.Cost]);
-                newDeck.Atk = int.Parse(datas[(int)E_DeckInfo.Atk]);
-                newDeck.Def = int.Parse(datas[(int)E_DeckInfo.Def]);
-                newDeck.AddDeckCount = int.Parse(datas[(int)E_DeckInfo.AddDeckCount]);
-                newDeck.Alpha = int.Parse(datas[(int)E_DeckInfo.Alpha]);
-                newDeck.SelfAtk = int.Parse(datas[(int)E_DeckInfo.SelfAtk]);
+                newDeck.Cost = int.Parse(datas[(int)E_PlayerDeckInfo.Cost]);
+                newDeck.Atk = int.Parse(datas[(int)E_PlayerDeckInfo.Atk]);
+                newDeck.Def = int.Parse(datas[(int)E_PlayerDeckInfo.Def]);
+                newDeck.AddDeckCount = int.Parse(datas[(int)E_PlayerDeckInfo.AddDeckCount]);
+                newDeck.Alpha = int.Parse(datas[(int)E_PlayerDeckInfo.Alpha]);
+                newDeck.SelfAtk = int.Parse(datas[(int)E_PlayerDeckInfo.SelfAtk]);
 
-                newDeck.SaveDef = datas[(int)E_DeckInfo.SaveDef] == "1" ? true : false;
-                newDeck.Disappear = datas[(int)E_DeckInfo.Disappear] == "1" ? true : false;
+                newDeck.SaveDef = datas[(int)E_PlayerDeckInfo.SaveDef] == "1" ? true : false;
+                newDeck.Disappear = datas[(int)E_PlayerDeckInfo.Disappear] == "1" ? true : false;
+
+                Manager.Instance.Data.s_data.AddDeckInfo(newDeck);
+            }
+        }
+
+        private void MobDeckDataParse(string m_deckData)
+        {
+            string[] items = PartitionRow(m_deckData);
+
+            for (int i = 0; i < items.Length; i++)
+            {
+                MobDeckStruct newDeck = new MobDeckStruct();
+                string[] datas = PartitionCol(items[i]);
+
+                newDeck.ID = int.Parse(datas[(int)E_MobDeckInfo.ID]);
+                newDeck.Type = (E_DeckType)int.Parse(datas[(int)E_MobDeckInfo.Type][0].ToString());
+                newDeck.Name = datas[(int)E_MobDeckInfo.Name];
+                newDeck.Cost = int.Parse(datas[(int)E_MobDeckInfo.Cost]);
+                newDeck.UseType = (E_DeckUseType)int.Parse(datas[(int)E_MobDeckInfo.UseType][0].ToString());
+                newDeck.Atk = int.Parse(datas[(int)E_MobDeckInfo.Atk]);
+                newDeck.Def = int.Parse(datas[(int)E_MobDeckInfo.Def]);
+                newDeck.NextTurnPlusPower = int.Parse(datas[(int)E_MobDeckInfo.NextTurnPlusPower]);
+                newDeck.DecreasePowerPercent = float.Parse(datas[(int)E_MobDeckInfo.DecreasePowerPercent]);
+
+                string[] nTurnDatas = datas[(int)E_MobDeckInfo.N_TurnAction].Split(';');
+                newDeck.N_turnAction = new int[nTurnDatas.Length];
+                
+                for (int j = 0; j < nTurnDatas.Length; j++)
+                { newDeck.N_turnAction[j] = int.Parse(nTurnDatas[j]); }
+
+                newDeck.SteelGold = int.Parse(datas[(int)E_MobDeckInfo.SteelGold]);
+                newDeck.Runaway = datas[(int)E_MobDeckInfo.Runaway] == "1" ? true : false;
+                newDeck.Disappear = datas[(int)E_MobDeckInfo.Disappear] == "1" ? true : false;
+                newDeck.Heal = int.Parse(datas[(int)E_MobDeckInfo.Heal]);
 
                 Manager.Instance.Data.s_data.AddDeckInfo(newDeck);
             }
@@ -312,9 +347,14 @@ public class DataManager : IListener
         return s_data.Monsters[m_mobId];
     }
 
-    public DeckStruct GetDeckData(int m_deckId)
+    public PlayerDeckStruct GetPlayerDeckData(int m_deckId)
     {
-        return s_data.Decks[m_deckId];
+        return s_data.PlayerDecks[m_deckId];
+    }
+
+    public MobDeckStruct GetMobDeckData(int m_deckId)
+    {
+        return s_data.MobDecks[m_deckId];
     }
 
     public Sprite GetDeckImage(int m_deckId)
@@ -344,6 +384,8 @@ public class DataManager : IListener
         s_data.Positions.PlayerReadyPos = poser.GetChild(1).position;
         s_data.Positions.MobSpawnPos = poser.GetChild(2).position;
         s_data.Positions.MobReadyPos = poser.GetChild(3).position;
+        s_data.Positions.DeckSpawnPos = poser.GetChild(4).position;
+        s_data.Positions.DeckReadyPos = poser.GetChild(5).position;
     }
 }
 

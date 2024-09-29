@@ -25,7 +25,7 @@ public class Deck : MonoBehaviour, IPooledObject
 
     public void SetDeckData(int m_idNumber)
     {
-        DeckStruct deckData = Manager.Instance.Data.GetDeckData(m_idNumber);
+        PlayerDeckStruct deckData = Manager.Instance.Data.GetPlayerDeckData(m_idNumber);
         
         this._id = m_idNumber;
         CopyDeckData(deckData);
@@ -46,7 +46,7 @@ public class Deck : MonoBehaviour, IPooledObject
         this._deckImage.sprite = Manager.Instance.Data.GetDeckImage(this._id);
     }
 
-    private void CopyDeckData(DeckStruct m_source)
+    private void CopyDeckData(PlayerDeckStruct m_source)
     {
         this._cost = m_source.Cost;
         this._name = m_source.Name;
