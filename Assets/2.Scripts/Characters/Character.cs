@@ -4,11 +4,14 @@ using UnityEditor.Animations;
 using UnityEngine;
 using DG.Tweening;
 
-public class Character : MonoBehaviour, IListener
+public abstract class Character : MonoBehaviour, IListener
 {
-    [SerializeField] private string _name;
-    [SerializeField] private int _hp;
+    [SerializeField] private CharacterInfo _charInfo = new CharacterInfo();
+    public CharacterInfo CharacterInfo => _charInfo;
     private Animator _anim;
+
+    protected abstract Vector2 _spawnPos { get; }
+    protected abstract Vector2 _readyPos { get; }
 
     private E_CharacterState _state = E_CharacterState.None;
     public E_CharacterState State
@@ -20,12 +23,16 @@ public class Character : MonoBehaviour, IListener
             switch (value)
             {
                 case E_CharacterState.Idel:
+                    IdelAction();
                     break;
                 case E_CharacterState.Attack:
+                    AttackAction();
                     break;
                 case E_CharacterState.OnDamage:
+                    OnDamageAction();
                     break;
                 case E_CharacterState.Dead:
+                    DeadAction();
                     break;
             }
         }
@@ -40,28 +47,16 @@ public class Character : MonoBehaviour, IListener
     private void ConnectAnimatorController()
     {
         _anim.runtimeAnimatorController =
-            Resources.Load<AnimatorController>($"Animators/{_name}");
+            Resources.Load<AnimatorController>($"Animators/{_charInfo.Name}");
     }
 
-    private void IdelAction()
-    {
+    protected abstract void IdelAction();
 
-    }
+    protected abstract void AttackAction();
 
-    private void AttackAction()
-    {
+    protected abstract void OnDamageAction();
 
-    }
-
-    private void OnDamageAction()
-    {
-
-    }
-
-    private void DeadAction()
-    {
-
-    }
+    protected abstract void DeadAction();
 
     public void OnEvent(E_Events m_eventType, System.ComponentModel.Component m_order, object m_param)
     {
@@ -80,10 +75,19 @@ public class Character : MonoBehaviour, IListener
     private void MoveToReadyPos()
     {
         _anim.SetBool("IsWalk", true);
-        transform.position = Manager.Instance.Data.PlayerSpawnPos;
-        transform.DOMove(Manager.Instance.Data.PlayerReadyPos, 4f)
-            .SetEase(Ease.Linear)
-            .OnComplete(()=> { _anim.SetBool("IsWalk", false); });
+        transform.position = _spawnPos;
+        transform.DOMove(_readyPos, 4f).SetEase(Ease.Linear)
+            .OnComplete(() => { _anim.SetBool("IsWalk", false); });
+    }
+
+    private void UseDeck(Character m_target,int m_deckID)
+    {
+
+    }
+
+    private void OnDisable()
+    {
+        Manager.Instance.Event.RemoveListener(E_Events.ChangedBattle,this);
     }
 
 }
