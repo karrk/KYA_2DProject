@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -68,6 +69,25 @@ public class DataManager : IListener
             yield return parser.CSVParse((E_CSVTableType)i, request.downloadHandler.text);
 
             Debug.Log($"{(E_CSVTableType)i} 테이블 로드 완료..");
+        }
+    }
+
+    public void RegistInitCharacter(PlayerCharacter m_character)
+    {
+        v_data.CurrentCharacter = m_character;
+        v_data.PlayerData.Decks = new List<int>();
+        CopyDecksData();
+        v_data.PlayerData.RoundGold = 0;
+
+        void CopyDecksData()
+        {
+            foreach (var deck in m_character.CharacterInfo.DeckInventory)
+            {
+                for (int i = 0; i < deck.Value; i++)
+                {
+                    v_data.PlayerData.Decks.Add(deck.Key);
+                }
+            }
         }
     }
 

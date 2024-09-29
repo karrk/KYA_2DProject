@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Manager : MonoBehaviour
+public class Manager : MonoBehaviour, IListener
 {
     private static Manager _instance = null;
     public static Manager Instance => _instance;
@@ -121,7 +121,16 @@ public class Manager : MonoBehaviour
 
     private void AddManagerEvent()
     {
+        Event.AddListener(E_Events.ChangedBattleScene, this);
         Event.AddListener(E_Events.ChangedBattleScene,Data);
     }
 
+    public void OnEvent(E_Events m_eventType, System.ComponentModel.Component m_order, object m_param)
+    {
+        if(m_eventType == E_Events.ChangedBattleScene)
+        {
+            PlayerCharacter character = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCharacter>();
+            Data.RegistInitCharacter(character);
+        }
+    }
 }

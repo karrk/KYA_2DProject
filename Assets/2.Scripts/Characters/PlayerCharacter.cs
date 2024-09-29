@@ -29,7 +29,7 @@ public class PlayerCharacter : Character, IListener, IWaiter
     {
         base.Initialilze();
         (_charInfo as PlayerCharacterInfo).CopyCharacterData(Manager.Instance.Data.v_data.PlayerData.SelectedCharacterID);
-        Manager.Instance.Event.PlayEvent(E_Events.BattleReady);
+        
     }
 
     private void Ready()

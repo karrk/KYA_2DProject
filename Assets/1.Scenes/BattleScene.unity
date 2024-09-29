@@ -1610,8 +1610,9 @@ GameObject:
   m_Component:
   - component: {fileID: 696640600}
   - component: {fileID: 696640601}
+  - component: {fileID: 696640602}
   m_Layer: 0
-  m_Name: PlayerDeckLoader
+  m_Name: PlayerDeckController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1642,6 +1643,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8be557a943639af409844a8a23e5966a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &696640602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696640599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e455a635f7bb0cc42b024b1c110773a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &699214668
