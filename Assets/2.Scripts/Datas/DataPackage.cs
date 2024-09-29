@@ -24,6 +24,7 @@ public struct DeckStruct
     public int SelfAtk;
     public bool SaveDef;
     public bool Disappear;
+    public E_DeckUseType UseType;
 }
 
 public struct PlayerStruct
@@ -33,6 +34,16 @@ public struct PlayerStruct
     public Character Char;
     public int Gold;
     public List<int> Decks;
+}
+
+public struct MonsterStruct
+{
+    public int ID;
+    public E_MonsterGrade Grade;
+    public string Name;
+    public int Level;
+    public int HP;
+    public List<int> StartDecks;
 }
 
 public struct VolumeStruct

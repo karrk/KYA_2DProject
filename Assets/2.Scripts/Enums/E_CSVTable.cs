@@ -41,6 +41,12 @@ public enum E_DeckGrade
     Rare,
 }
 
+public enum E_DeckUseType
+{
+    NonTarget,
+    Targetting,
+}
+
 public enum E_DeckInfo
 {
     ID,
@@ -48,6 +54,7 @@ public enum E_DeckInfo
     Grade,
     Name,
     Cost,
+    UseType,
     Atk,
     Def,
     AddDeckCount,
@@ -57,6 +64,9 @@ public enum E_DeckInfo
     Disappear,
 }
 
+#endregion
+
+#region 방 테이블
 public enum E_RoomType
 {
     None,
@@ -67,6 +77,27 @@ public enum E_RoomType
     U, // 미지
     S, // 상인
     C, // 보물
+}
+#endregion
+
+#region 몬스터 테이블
+
+public enum E_MonsterInfo
+{
+    ID,
+    Grade,
+    Name,
+    Level,
+    HP,
+    StartDeck,
+}
+
+public enum E_MonsterGrade
+{
+    None,
+    Normal,
+    Elite,
+    Boss,
 }
 
 #endregion
