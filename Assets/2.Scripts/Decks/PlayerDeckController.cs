@@ -18,6 +18,9 @@ public class PlayerDeckController : MonoBehaviour, IListener
     private List<int> _onHands = new List<int>();
     private List<int> _waitDecks = new List<int>();
 
+    private WaitForSeconds _deckPullSec;
+    private Coroutine _deckPullRoutine;
+
     private void Start()
     {
         Manager.Instance.Event.AddListener(E_Events.BattleReady,this);
@@ -26,6 +29,8 @@ public class PlayerDeckController : MonoBehaviour, IListener
 
         _creator = GetComponent<PlayerDeckCreator>();
         _mover = GetComponent<PlayerDeckMover>();
+
+        _deckPullSec = new WaitForSeconds(Manager.Instance.Data.DeckPullCoolTime);
     }
 
     private void Update()
@@ -44,7 +49,9 @@ public class PlayerDeckController : MonoBehaviour, IListener
         }
         else if(m_eventType == E_Events.PlayerTurn)
         {
-            SetupPlayerDeck();
+            if(_deckPullRoutine != null) { StopCoroutine(_deckPullRoutine); }
+
+            _deckPullRoutine = StartCoroutine(MultiDecksPull());
         }
         else if(m_eventType == E_Events.PlayerTurnEnd)
         {
@@ -67,11 +74,22 @@ public class PlayerDeckController : MonoBehaviour, IListener
         }
     }
 
+    
+
     private void SetupPlayerDeck()
     {
         for (int i = 0; i < PullDeckCount; i++)
         {
             WaitToHand();
+        }
+    }
+
+    private IEnumerator MultiDecksPull()
+    {
+        for (int i = 0; i < PullDeckCount; i++)
+        {
+            WaitToHand();
+            yield return _deckPullSec;
         }
     }
 
@@ -108,6 +126,8 @@ public class PlayerDeckController : MonoBehaviour, IListener
         Deck deckObject = _creator.GetDeck(deckId);
         _mover.MoveToPos(deckObject.transform, WaitPos, HandPos);
     }
+
+    
 
     /// <summary>
     /// Grave의 덱들을 전부 대기열에 추가
@@ -150,5 +170,11 @@ public class PlayerDeckController : MonoBehaviour, IListener
             _waitDecks[randIdx] = _waitDecks[i];
             _waitDecks[i] = temp;
         }
+    }
+
+    private void OnDisable()
+    {
+        if (_deckPullRoutine != null)
+            StopCoroutine(_deckPullRoutine);
     }
 }
