@@ -5,11 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - Poser
+  - Deck
+  - UseArea
+  - Monster
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Deck
   - Water
   - UI
   - 

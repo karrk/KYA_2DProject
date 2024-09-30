@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2144667075170794112}
   m_Layer: 0
   m_Name: DeckSprite
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 5358262967720328699}
   m_Layer: 0
   m_Name: I_cost
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 8217303329279076960}
   m_Layer: 0
   m_Name: T_DeckDescription
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -309,7 +309,7 @@ GameObject:
   - component: {fileID: 328524275296777050}
   m_Layer: 0
   m_Name: I_TypePanel
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -386,7 +386,7 @@ GameObject:
   - component: {fileID: 6708599307904997790}
   m_Layer: 0
   m_Name: WorldCanvas
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -490,7 +490,7 @@ GameObject:
   - component: {fileID: 9123866750202488381}
   m_Layer: 0
   m_Name: T_DeckName
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -757,11 +757,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2259148117093731618}
   - component: {fileID: 3932386562547575707}
-  - component: {fileID: 8228209585104128108}
   - component: {fileID: 6075470176666201238}
+  - component: {fileID: 2404302093520669118}
   m_Layer: 0
   m_Name: Deck
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -835,26 +835,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8228209585104128108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7209304741562585924}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67637bdb5d49d7944888066576278c3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _baseSprite: {fileID: 3932386562547575707}
-  _costText: {fileID: 7336112818985518722}
-  _nameText: {fileID: 9123866750202488381}
-  _typeText: {fileID: 2386452698919516216}
-  _deckDescriptionText: {fileID: 8217303329279076960}
-  _deckImage: {fileID: 2144667075170794112}
-  _mask: {fileID: 3960951867480133919}
-  _canvas: {fileID: 7514396850918043389}
 --- !u!61 &6075470176666201238
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -900,6 +880,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.0472646, y: 4}
   m_EdgeRadius: 0
+--- !u!114 &2404302093520669118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7209304741562585924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bea116d65516ca04ab25747008db1da1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _baseSprite: {fileID: 3932386562547575707}
+  _costText: {fileID: 7336112818985518722}
+  _nameText: {fileID: 9123866750202488381}
+  _typeText: {fileID: 2386452698919516216}
+  _deckDescriptionText: {fileID: 8217303329279076960}
+  _deckImage: {fileID: 2144667075170794112}
+  _mask: {fileID: 3960951867480133919}
+  _canvas: {fileID: 7514396850918043389}
+  Description: 
 --- !u!1 &7836195578970210958
 GameObject:
   m_ObjectHideFlags: 0
@@ -912,7 +913,7 @@ GameObject:
   - component: {fileID: 3960951867480133919}
   m_Layer: 0
   m_Name: Sprite Mask
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

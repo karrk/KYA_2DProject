@@ -33,7 +33,7 @@ public struct PlayerDeckStruct
     public int Atk;
     public int Def;
     public int AddDeckCount;
-    public int Alpha;
+    public int AlphaAtk;
     public int SelfAtk;
     public bool SaveDef;
     public bool Disappear;

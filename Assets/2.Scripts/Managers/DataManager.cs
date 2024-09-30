@@ -323,7 +323,7 @@ public class DataManager : IListener
                 newDeck.Atk = int.Parse(datas[(int)E_PlayerDeckInfo.Atk]);
                 newDeck.Def = int.Parse(datas[(int)E_PlayerDeckInfo.Def]);
                 newDeck.AddDeckCount = int.Parse(datas[(int)E_PlayerDeckInfo.AddDeckCount]);
-                newDeck.Alpha = int.Parse(datas[(int)E_PlayerDeckInfo.Alpha]);
+                newDeck.AlphaAtk = int.Parse(datas[(int)E_PlayerDeckInfo.Alpha]);
                 newDeck.SelfAtk = int.Parse(datas[(int)E_PlayerDeckInfo.SelfAtk]);
 
                 newDeck.SaveDef = datas[(int)E_PlayerDeckInfo.SaveDef] == "1" ? true : false;

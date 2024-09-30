@@ -128,7 +128,7 @@ public class PlayerDeckController : MonoBehaviour, IListener
         _onHands.Add(deckId);
         _waitDecks.RemoveAt(_waitDecks.Count - 1);
 
-        Deck deckObject = _creator.GetDeck(deckId);
+        PlayerDeck deckObject = _creator.GetPlayerDeck(deckId);
         _lastSortValue = deckObject.SetSortOrderValue(_lastSortValue);
         _lastLayerMask = deckObject.SetLayerMask(_lastLayerMask);
         _mover.MoveToPos(deckObject.transform, WaitPos, HandPos);
