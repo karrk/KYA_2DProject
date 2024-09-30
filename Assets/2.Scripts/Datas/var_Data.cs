@@ -6,4 +6,5 @@ public class var_Data
     public PlayerStruct PlayerData;
     public VolumeStruct VolumeData;
     public PlayerCharacter CurrentCharacter;
+    public Monster[] MonstersDatas;
 }

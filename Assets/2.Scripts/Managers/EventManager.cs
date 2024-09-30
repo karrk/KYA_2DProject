@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 
 public class EventManager
 {
@@ -22,6 +23,8 @@ public class EventManager
     {
         if (!_eventListeners.ContainsKey(m_eventType) || _eventListeners[m_eventType].Count <= 0)
             return;
+
+        UnityEngine.Debug.Log($"{m_eventType} 이벤트 발생");
 
         foreach (var listener in _eventListeners[m_eventType])
         {

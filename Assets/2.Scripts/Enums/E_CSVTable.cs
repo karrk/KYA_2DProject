@@ -22,6 +22,8 @@ public enum E_CharacterStats
     Name,
     HP,
     StartDeck,
+    PullDeckCount,
+    AbilityPoint,
 }
 #endregion
 
@@ -110,6 +112,7 @@ public enum E_MonsterInfo
     Level,
     HP,
     StartDeck,
+    AbilityPoint,
 }
 
 public enum E_MonsterGrade

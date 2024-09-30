@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Monster : Character
 {
-    [SerializeField] private int _monsterNumber;
-    public int MonsterNumber => _monsterNumber;
+    public int MobID => _charInfo.ID;
 
     protected override Vector2 SpawnPos => _spawnPos;
     protected override Vector2 ReadyPos => _readyPos;
@@ -13,11 +12,13 @@ public class Monster : Character
     private Vector2 _spawnPos;
     private Vector2 _readyPos;
 
-    public void MobInitialize()
+    public void MobInitialize(int m_mobId)
     {
-        base.Initialilze();
         _charInfo = new MobInfo();
-        (_charInfo as MobInfo).CopyMobData(Random.Range(0,3));
+        MonsterStruct data = Manager.Instance.Data.GetMobData(m_mobId);
+        (_charInfo as MobInfo).CopyMonsterInfo(data);
+
+        base.Initialilze();
     }
 
     public void MobReady()

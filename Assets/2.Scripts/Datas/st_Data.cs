@@ -8,9 +8,9 @@ public class st_Data
 {
     #region Ä³¸¯ÅÍ
 
-    public CharacterStruct[] Characters = new CharacterStruct[(int)E_Character.Size];
+    public PlayerCharacterStruct[] Characters = new PlayerCharacterStruct[(int)E_Character.Size];
     
-    public void AddCharacter(E_Character m_character,CharacterStruct m_characterData)
+    public void AddCharacter(E_Character m_character,PlayerCharacterStruct m_characterData)
     {
         Characters[(int)m_character] = m_characterData;
     }

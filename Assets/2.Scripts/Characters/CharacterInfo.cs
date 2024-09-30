@@ -1,69 +1,49 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class CharacterInfo
+
+public abstract class CharacterInfo
 {
-    protected int _id;
-
-    [SerializeField] protected string _name;
-    [SerializeField] protected int _hp;
-    [SerializeField] protected int _pullDeckCount = 3;
-    [SerializeField] protected int _abilityPoint;
-    protected Dictionary<int, int> _deckInventory = new Dictionary<int, int>();
+    public abstract int ID { get; } 
     
-
-    public string Name => _name;
-    public int ID => _id;
-    public int HP => _hp;
-    public int PullDeckCount => _pullDeckCount;
-    public int AP => _abilityPoint;
-    public Dictionary<int, int> DeckInventory => _deckInventory;
-
-    public void SetID(int m_Id)
-    {
-        this._id = m_Id;
-    }
-
-    protected void CopyDeckData(List<int> m_deckData)
-    {
-        for (int i = 0; i < m_deckData.Count; i++)
-        {
-            if (!_deckInventory.ContainsKey(m_deckData[i]))
-                _deckInventory.Add(m_deckData[i], 0);
-
-            _deckInventory[m_deckData[i]]++;
-        }
-    }
+    public abstract string Name { get; }
+    public abstract int HP { get; }
+    public abstract int AP { get; }
 }
 
 public class PlayerCharacterInfo : CharacterInfo
 {
-    public void CopyCharacterData(int m_selectedID)
-    {
-        CharacterStruct origin = Manager.Instance.Data.GetCharacterData(m_selectedID);
+    private PlayerCharacterStruct Info => Manager.Instance.Data.GetCharacterData(ID);
 
-        this._id = origin.ID;
-        this._name = origin.Name;
-        this._hp = origin.HP;
+    public override int ID => Manager.Instance.Data.v_data.PlayerData.SelectedCharacterID;
 
-        base.CopyDeckData(origin.StartDecks);
-    }
+    public int PullDecksCount => Info.PullDeckCount;
+    public override string Name => Info.Name;
+    public override int HP => Info.HP; // 초기 캐릭터의 값을 반영되었기에 실시간 반영값이 필요
+    public override int AP => Info.AbilityPoint;
 }
 
 public class MobInfo : CharacterInfo
 {
-    private int _level;
+    private int _level = 0;
     public int Level => _level;
 
-    public void CopyMobData(int m_selectMobID)
+    public override int ID => _id;
+    public override string Name => _name;
+    public override int HP => _hp;
+    public override int AP => _ap;
+
+    private int _id;
+    private string _name;
+    private int _hp;
+    private int _ap;
+
+    public void CopyMonsterInfo(MonsterStruct m_mobData)
     {
-        MonsterStruct origin = Manager.Instance.Data.GetMobData(m_selectMobID);
-
-        this._id = origin.ID;
-        this._name = origin.Name;
-        this._level = origin.Level;
-
-        base.CopyDeckData(origin.StartDecks);
+        this._id = m_mobData.ID;
+        this._name = m_mobData.Name;
+        this._hp = m_mobData.HP;
+        this._ap = m_mobData.AbilityPoint;
+        this._level = m_mobData.Level;
     }
 }

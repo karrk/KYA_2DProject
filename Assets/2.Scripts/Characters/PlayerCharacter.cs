@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PlayerCharacter : Character, IListener, IWaiter
 {
-    protected override Vector2 SpawnPos => Manager.Instance.Data.PlayerSpawnPos;
+    public int PullDeckCount => (_charInfo as PlayerCharacterInfo).PullDecksCount;
 
+    protected override Vector2 SpawnPos => Manager.Instance.Data.PlayerSpawnPos;
     protected override Vector2 ReadyPos => Manager.Instance.Data.PlayerReadyPos;
 
     private void Start()
@@ -28,7 +29,7 @@ public class PlayerCharacter : Character, IListener, IWaiter
     protected override void Initialilze()
     {
         base.Initialilze();
-        (_charInfo as PlayerCharacterInfo).CopyCharacterData(Manager.Instance.Data.v_data.PlayerData.SelectedCharacterID);
+        //(_charInfo as PlayerCharacterInfo).CopyCharacterData(Manager.Instance.Data.v_data.PlayerData.SelectedCharacterID);
         
     }
 

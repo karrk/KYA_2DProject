@@ -11,8 +11,8 @@ public class PlayerDeckController : MonoBehaviour, IListener
     private Vector2 HandPos => Manager.Instance.Data.DeckHandPos;
     private Vector2 WaitPos => Manager.Instance.Data.DeckWaitPos;
 
-    private int PullDeckCount => Manager.Instance.Data.v_data.CurrentCharacter.CharacterInfo.PullDeckCount;
-    private int AP => Manager.Instance.Data.v_data.CurrentCharacter.CharacterInfo.AP;
+    private int PullDeckCount => Manager.Instance.Data.v_data.CurrentCharacter.PullDeckCount;
+    private int AP => Manager.Instance.Data.v_data.CurrentCharacter.AP;
 
     private List<int> _graves = new List<int>();
     private List<int> _onHands = new List<int>();
@@ -59,7 +59,7 @@ public class PlayerDeckController : MonoBehaviour, IListener
 
     private void GetPlayerDeckData()
     {
-        List<int> playerDecks = Manager.Instance.Data.v_data.PlayerData.Decks;
+        List<int> playerDecks = Manager.Instance.Data.v_data.PlayerData.TotalDecks;
 
         for (int i = 0; i < playerDecks.Count; i++)
         {

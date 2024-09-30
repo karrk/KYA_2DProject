@@ -30,30 +30,30 @@ public class MonstersInfoEditor : Editor, IListener
             _isShowReady = true;
     }
 
-    public override void OnInspectorGUI()
-    {
-        MonstersController container = (MonstersController)target;
-        DrawDefaultInspector();
+    //public override void OnInspectorGUI()
+    //{
+    //    MonstersController container = (MonstersController)target;
+    //    DrawDefaultInspector();
 
-        if(_isShowReady)
-        {
-            for (int i = 0; i < container.MonsterCount; i++)
-            {
-                EditorGUILayout.Space();
-                EditorGUILayout.LabelField($" {container[i+1].CharacterInfo.Name} ", EditorStyles.boldLabel);
-                EditorGUILayout.Space();
+    //    if(_isShowReady)
+    //    {
+    //        for (int i = 0; i < container.MonsterCount; i++)
+    //        {
+    //            EditorGUILayout.Space();
+    //            EditorGUILayout.LabelField($" {container[i+1].CharacterInfo.Name} ", EditorStyles.boldLabel);
+    //            EditorGUILayout.Space();
 
-                foreach (var e in container[i+1].CharacterInfo.DeckInventory)
-                {
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField($"µ¦ ID : {e.Key}", GUILayout.Width(60f));
-                    EditorGUILayout.LabelField($"µ¦ÀÌ¸§ : {Manager.Instance.Data.GetMobDeckData(e.Key).Name}", GUILayout.Width(150f));
-                    EditorGUILayout.LabelField($"°¹¼ö : {e.Value}");
-                    EditorGUILayout.EndHorizontal();
-                }
-            }
-        }
+    //            foreach (var e in container[i+1].CharacterInfo.DeckInventory)
+    //            {
+    //                EditorGUILayout.BeginHorizontal();
+    //                EditorGUILayout.LabelField($"µ¦ ID : {e.Key}", GUILayout.Width(60f));
+    //                EditorGUILayout.LabelField($"µ¦ÀÌ¸§ : {Manager.Instance.Data.GetMobDeckData(e.Key).Name}", GUILayout.Width(150f));
+    //                EditorGUILayout.LabelField($"°¹¼ö : {e.Value}");
+    //                EditorGUILayout.EndHorizontal();
+    //            }
+    //        }
+    //    }
 
-        serializedObject.ApplyModifiedProperties();
-    }
+    //    serializedObject.ApplyModifiedProperties();
+    //}
 }

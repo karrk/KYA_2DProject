@@ -1,12 +1,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct CharacterStruct
+public struct PlayerCharacterStruct
 {
     public int ID;
     public int HP;
     public string Name;
     public List<int> StartDecks;
+    public int PullDeckCount;
+    public int AbilityPoint;
+}
+
+public struct MonsterStruct
+{
+    public int ID;
+    public E_MonsterGrade Grade;
+    public string Name;
+    public int Level;
+    public int HP;
+    public List<int> StartDecks;
+    public int AbilityPoint;
 }
 
 public struct PlayerDeckStruct
@@ -53,18 +66,10 @@ public struct PlayerStruct
     public int SelectedCharacterID;
     public int TotalGold;
     public int RoundGold;
-    public List<int> Decks;
+    public List<int> TotalDecks;
 }
 
-public struct MonsterStruct
-{
-    public int ID;
-    public E_MonsterGrade Grade;
-    public string Name;
-    public int Level;
-    public int HP;
-    public List<int> StartDecks;
-}
+
 
 public struct VolumeStruct
 {

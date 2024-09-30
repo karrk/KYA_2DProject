@@ -5,7 +5,6 @@ using DG.Tweening;
 public abstract class Character : MonoBehaviour
 {
     [SerializeField] protected CharacterInfo _charInfo;
-    public CharacterInfo CharacterInfo => _charInfo;
     private Animator _anim;
 
     protected abstract Vector2 SpawnPos { get; }
@@ -36,9 +35,17 @@ public abstract class Character : MonoBehaviour
         }
     }
 
+    private int _hp;
+    public int HP => _hp;
+
+    private int _ap;
+    public int AP => _ap;
+
     protected virtual void Initialilze()
     {
         _anim = GetComponent<Animator>();
+        InitHP();
+        InitAP();
     }
 
     protected void ConnectAnimatorController()
@@ -63,8 +70,24 @@ public abstract class Character : MonoBehaviour
             .OnComplete(() => { _anim.SetBool("IsWalk", false); });
     }
 
-    private void UseDeck(Character m_target,int m_deckID)
+    protected void InitHP()
     {
-
+        this._hp = _charInfo.HP;
     }
+
+    public void AddHP(int m_value)
+    {
+        this._hp += m_value;
+    }
+
+    protected void InitAP()
+    {
+        this._ap = _charInfo.AP;
+    }
+
+    protected void AddAP(int m_value)
+    {
+        this._ap += m_value;
+    }
+
 }

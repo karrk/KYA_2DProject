@@ -78,18 +78,17 @@ public class DataManager : IListener
     public void RegistInitCharacter(PlayerCharacter m_character)
     {
         v_data.CurrentCharacter = m_character;
-        v_data.PlayerData.Decks = new List<int>();
+        v_data.PlayerData.TotalDecks = new List<int>();
         CopyDecksData();
         v_data.PlayerData.RoundGold = 0;
 
         void CopyDecksData()
         {
-            foreach (var deck in m_character.CharacterInfo.DeckInventory)
+            List<int> characterInitDecks = s_data.Characters[v_data.PlayerData.SelectedCharacterID].StartDecks;
+
+            for (int i = 0; i < characterInitDecks.Count; i++)
             {
-                for (int i = 0; i < deck.Value; i++)
-                {
-                    v_data.PlayerData.Decks.Add(deck.Key);
-                }
+                v_data.PlayerData.TotalDecks.Add(characterInitDecks[i]);
             }
         }
     }
@@ -249,7 +248,7 @@ public class DataManager : IListener
 
             for (int i = 0; i < items.Length; i++) // 하나의 캐릭터의
             {
-                CharacterStruct newChar = new CharacterStruct();
+                PlayerCharacterStruct newChar = new PlayerCharacterStruct();
                 string[] datas = PartitionCol(items[i]); // 캐릭터가 갖는 정보들
 
                 newChar.ID = int.Parse(datas[(int)E_CharacterStats.ID]);
@@ -262,6 +261,9 @@ public class DataManager : IListener
                 {
                     newChar.StartDecks.Add(int.Parse(decks[j]));
                 }
+
+                newChar.PullDeckCount = int.Parse(datas[(int)E_CharacterStats.PullDeckCount]);
+                newChar.AbilityPoint = int.Parse(datas[(int)E_CharacterStats.AbilityPoint]);
 
                 Manager.Instance.Data.s_data.AddCharacter((E_Character)i, newChar);
             }
@@ -288,6 +290,8 @@ public class DataManager : IListener
                 {
                     newMob.StartDecks.Add(int.Parse(decks[j]));
                 }
+
+                newMob.AbilityPoint = int.Parse(datas[(int)E_MonsterInfo.AbilityPoint]);
 
                 Manager.Instance.Data.s_data.AddMob(newMob);
             }
@@ -360,7 +364,7 @@ public class DataManager : IListener
     }
     #endregion
 
-    public CharacterStruct GetCharacterData(int m_charId)
+    public PlayerCharacterStruct GetCharacterData(int m_charId)
     {
         return s_data.Characters[m_charId];
     }

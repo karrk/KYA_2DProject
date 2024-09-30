@@ -7,8 +7,6 @@ public class MonstersController : MonoBehaviour, IListener, IWaiter
     // depth에 맞는 랜덤스폰
 
     private Monster[] _monsters;
-    public Monster this[int idx] { get { return _monsters[idx]; } }
-
     public int MonsterCount => _monsters.Length - 1;
 
     private void Start()
@@ -69,24 +67,28 @@ public class MonstersController : MonoBehaviour, IListener, IWaiter
     private void InitMonsters()
     {
         int mobCount = Random.Range(1, 4);
+        Manager.Instance.Data.v_data.MonstersDatas = new Monster[mobCount +1 ];
+        this._monsters = Manager.Instance.Data.v_data.MonstersDatas;
 
         GetMonsters(mobCount);
+        RegistRandomMob(0, 3);
+    }
 
+    private void RegistRandomMob(int m_minRange, int m_maxRange)
+    {
         for (int i = 1; i < _monsters.Length; i++)
         {
-            _monsters[i].MobInitialize();
+            _monsters[i].MobInitialize(Random.Range(m_minRange, m_maxRange));
         }
     }
 
     private void GetMonsters(int m_mobCount)
     {
-        _monsters = new Monster[m_mobCount + 1];
-
         for (int i = 0; i < m_mobCount; i++)
         {
             GameObject mob = transform.GetChild(i).gameObject;
             mob.gameObject.SetActive(true);
-            _monsters[i+1] = mob.GetComponent<Monster>();
+            Manager.Instance.Data.v_data.MonstersDatas[i + 1] = mob.GetComponent<Monster>();
         }
     }
 
