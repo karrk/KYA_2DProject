@@ -21,6 +21,9 @@ public class PlayerDeckController : MonoBehaviour, IListener
     private WaitForSeconds _deckPullSec;
     private Coroutine _deckPullRoutine;
 
+    private int _lastSortValue;
+    private uint _lastLayerMask;
+
     private void Start()
     {
         Manager.Instance.Event.AddListener(E_Events.BattleReady,this);
@@ -51,6 +54,8 @@ public class PlayerDeckController : MonoBehaviour, IListener
         {
             if(_deckPullRoutine != null) { StopCoroutine(_deckPullRoutine); }
 
+            _lastSortValue = Manager.Instance.Data.DeckInitSortValue;
+            _lastLayerMask = Manager.Instance.Data.DeckMaskLayerNumber;
             _deckPullRoutine = StartCoroutine(MultiDecksPull());
         }
         else if(m_eventType == E_Events.PlayerTurnEnd)
@@ -124,6 +129,8 @@ public class PlayerDeckController : MonoBehaviour, IListener
         _waitDecks.RemoveAt(_waitDecks.Count - 1);
 
         Deck deckObject = _creator.GetDeck(deckId);
+        _lastSortValue = deckObject.SetSortOrderValue(_lastSortValue);
+        _lastLayerMask = deckObject.SetLayerMask(_lastLayerMask);
         _mover.MoveToPos(deckObject.transform, WaitPos, HandPos);
     }
 

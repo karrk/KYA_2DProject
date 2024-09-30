@@ -27,9 +27,12 @@ public class DataManager : IListener
     public Vector2 DeckHandPos => s_data.Positions.DeckHandPos;
     public Vector2 DeckWaitPos => s_data.Positions.DeckWaitPos;
 
-    public float DeckMoveAnimTime => 0.4f;
-    public float DeckWidth => 1f;
-    public float DeckPullCoolTime => 0.5f;
+    public int DeckInitSortValue = 10;
+    public uint DeckMaskLayerNumber = 1<<9;
+    public float DeckMoveAnimTime => 0.5f;
+    public float DeckWidth => 1.8f;
+    public float DeckPullCoolTime => 0.2f;
+
 
     public DataManager()
     {
