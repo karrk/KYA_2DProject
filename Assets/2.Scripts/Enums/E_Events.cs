@@ -24,8 +24,12 @@ public enum E_Events
     
     PlayerTurn = 50,
     EnemyTurn,
+
+    PlayerTurnEnd,
     
     StageClear,
+    StageFail,
+
     UsedPassiveDeck,
     UsedActiveDeck,
     #endregion

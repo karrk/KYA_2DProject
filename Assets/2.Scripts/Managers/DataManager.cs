@@ -23,8 +23,11 @@ public class DataManager : IListener
     public Vector2 PlayerReadyPos => s_data.Positions.PlayerReadyPos;
     public Vector2 MobSpawnPos => s_data.Positions.MobSpawnPos;
     public Vector2 MobReadyPos => s_data.Positions.MobReadyPos;
-    public Vector2 DeckSpawnPos => s_data.Positions.DeckSpawnPos;
-    public Vector2 DeckReadyPos => s_data.Positions.DeckReadyPos;
+    public Vector2 DeckGravePos => s_data.Positions.DeckGravePos;
+    public Vector2 DeckHandPos => s_data.Positions.DeckHandPos;
+    public Vector2 DeckWaitPos => s_data.Positions.DeckWaitPos;
+
+    public float DeckMoveAnimTime => 1f;
 
     public DataManager()
     {
@@ -404,8 +407,9 @@ public class DataManager : IListener
         s_data.Positions.PlayerReadyPos = poser.GetChild(1).position;
         s_data.Positions.MobSpawnPos = poser.GetChild(2).position;
         s_data.Positions.MobReadyPos = poser.GetChild(3).position;
-        s_data.Positions.DeckSpawnPos = poser.GetChild(4).position;
-        s_data.Positions.DeckReadyPos = poser.GetChild(5).position;
+        s_data.Positions.DeckGravePos = poser.GetChild(4).position;
+        s_data.Positions.DeckHandPos = poser.GetChild(5).position;
+        s_data.Positions.DeckWaitPos = poser.GetChild(6).position;
     }
 }
 

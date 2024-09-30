@@ -18,6 +18,7 @@ public class Deck : MonoBehaviour, IPooledObject
     private string _name;
     private E_DeckType _type;
     private string _description;
+    private bool _isDisappeared;
 
     public ObjectPool MyPool => Manager.Instance.Pool.GetPool(E_PoolType.Deck);
 

@@ -116,6 +116,8 @@ public class Manager : MonoBehaviour, IListener
     {
         yield return Data.LoadData();
 
+        Pool.CreatePool(E_PoolType.Deck);
+
         Event.PlayEvent(E_Events.ChangedBattleScene);
     }
 

@@ -78,8 +78,9 @@ public struct PostionStruct
     public Vector2 PlayerReadyPos;
     public Vector2 MobSpawnPos;
     public Vector2 MobReadyPos;
-    public Vector2 DeckSpawnPos;
-    public Vector2 DeckReadyPos;
+    public Vector2 DeckGravePos;
+    public Vector2 DeckHandPos;
+    public Vector2 DeckWaitPos;
 }
 
 public class MapStruct // ºÐÇÒ

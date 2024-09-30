@@ -9,6 +9,8 @@ public class PoolManager
     private Dictionary<E_PoolType, ObjectPool> _pools;
     private IPooledObject[] _prefabs;
 
+    public ObjectPool GetPool(E_PoolType m_type) { return _pools[m_type]; }
+
     public PoolManager()
     {
         _pools = new Dictionary<E_PoolType, ObjectPool>();
@@ -16,8 +18,6 @@ public class PoolManager
 
         RegistPrefabs();
     }
-
-    public ObjectPool GetPool(E_PoolType m_type) { return _pools[m_type]; }
 
     public void CreatePool(E_PoolType m_type)
     {
@@ -29,13 +29,17 @@ public class PoolManager
         newPool.Initialize(m_type,Manager.Instance.Data.InitPoolCount);
     }
 
+    public IPooledObject GetObject(E_PoolType m_type)
+    {
+        return this._pools[m_type].GetObj();
+    }
+
     private void RegistPrefabs()
     {
         for (int i = 0; i < _prefabs.Length; i++)
         {
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{PrefabsPath}/{(E_PoolType)i}.prefab");
 
-            Debug.Log($"{PrefabsPath}/{(E_PoolType)i}");
             _prefabs[i] = prefab.GetComponent<IPooledObject>();
         }
     }

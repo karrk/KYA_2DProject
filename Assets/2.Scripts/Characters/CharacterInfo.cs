@@ -8,11 +8,16 @@ public class CharacterInfo
 
     [SerializeField] protected string _name;
     [SerializeField] protected int _hp;
+    [SerializeField] protected int _pullDeckCount = 3;
+    [SerializeField] protected int _abilityPoint;
     protected Dictionary<int, int> _deckInventory = new Dictionary<int, int>();
+    
 
     public string Name => _name;
     public int ID => _id;
     public int HP => _hp;
+    public int PullDeckCount => _pullDeckCount;
+    public int AP => _abilityPoint;
     public Dictionary<int, int> DeckInventory => _deckInventory;
 
     public void SetID(int m_Id)
