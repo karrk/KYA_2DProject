@@ -29,8 +29,6 @@ public class PlayerCharacter : Character, IListener, IWaiter
     protected override void Initialilze()
     {
         base.Initialilze();
-        //(_charInfo as PlayerCharacterInfo).CopyCharacterData(Manager.Instance.Data.v_data.PlayerData.SelectedCharacterID);
-        
     }
 
     private void Ready()
@@ -67,5 +65,17 @@ public class PlayerCharacter : Character, IListener, IWaiter
     public void SendFinishSign(E_Events m_finEvent)
     {
         throw new System.NotImplementedException();
+    }
+
+    public override void ApplyDeck(PlayerDeck m_deck)
+    {
+        // 플레이어 => 플레이어 자기 자신에게
+
+    }
+
+    public override void ApplyDeck(MobDeck m_deck)
+    {
+        // 몬스터 => 플레이어 몬스터 덱의 영향
+
     }
 }

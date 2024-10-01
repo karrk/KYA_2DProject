@@ -49,4 +49,17 @@ public class Monster : Character
     {
         throw new System.NotImplementedException();
     }
+
+    public override void ApplyDeck(PlayerDeck m_deck)
+    {
+        // 플레이어 => 몬스터 효과
+        Debug.Log($"{m_deck.Name} 사용");
+
+        Destroy(this.gameObject);
+    }
+
+    public override void ApplyDeck(MobDeck m_deck)
+    {
+        // 몬스터 => 몬스터 효과
+    }
 }

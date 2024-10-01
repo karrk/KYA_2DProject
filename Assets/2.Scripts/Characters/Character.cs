@@ -90,4 +90,7 @@ public abstract class Character : MonoBehaviour
         this._ap += m_value;
     }
 
+    public abstract void ApplyDeck(PlayerDeck m_deck);
+    public abstract void ApplyDeck(MobDeck m_deck);
+
 }
