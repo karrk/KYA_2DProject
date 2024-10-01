@@ -35,11 +35,11 @@ public abstract class Character : MonoBehaviour
         }
     }
 
-    private int _hp;
-    public int HP => _hp;
+    private DBValue<int> _hp = new DBValue<int>();
+    public DBValue<int> HP => _hp;
 
-    private int _ap;
-    public int AP => _ap;
+    private DBValue<int> _ap = new DBValue<int>();
+    public DBValue<int> AP => _ap;
 
     protected virtual void Initialilze()
     {
@@ -72,25 +72,30 @@ public abstract class Character : MonoBehaviour
 
     protected void InitHP()
     {
-        this._hp = _charInfo.HP;
+        this._hp.Value = _charInfo.HP;
     }
 
     public void AddHP(int m_value)
     {
-        this._hp += m_value;
+        this._hp.Value += m_value;
     }
 
     protected void InitAP()
     {
-        this._ap = _charInfo.AP;
+        this._ap.Value = _charInfo.AP;
     }
 
     protected void AddAP(int m_value)
     {
-        this._ap += m_value;
+        this._ap.Value += m_value;
     }
 
     public abstract void ApplyDeck(PlayerDeck m_deck);
     public abstract void ApplyDeck(MobDeck m_deck);
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(1))
+            this.AP.Value--;
+    }
 }

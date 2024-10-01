@@ -63,15 +63,14 @@ public struct MobDeckStruct
 
 public struct PlayerStruct
 {
-    public string NickName;
+    public DBValue<string> NickName;
     public E_PlayerGrade Grade;
     public int SelectedCharacterID;
-    public int TotalGold;
-    public int RoundGold;
+    public DBValue<int> TotalGold;
+    public DBValue<int> RoundGold;
     public List<int> TotalDecks;
+    public DBValue<int> MaxAP;
 }
-
-
 
 public struct VolumeStruct
 {

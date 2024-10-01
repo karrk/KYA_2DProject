@@ -8,7 +8,7 @@ public class PlayerDeckController : MonoBehaviour, IListener
     private PlayerDeckMover _mover;
 
     private int PullDeckCount => Manager.Instance.Data.v_data.CurrentCharacter.PullDeckCount;
-    private int AP => Manager.Instance.Data.v_data.CurrentCharacter.AP;
+    private int AP => Manager.Instance.Data.v_data.CurrentCharacter.AP.Value;
 
     private List<int> _graves = new List<int>();
     private List<int> _onHands = new List<int>();

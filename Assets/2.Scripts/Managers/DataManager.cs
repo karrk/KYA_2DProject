@@ -11,12 +11,12 @@ public class DataManager : IListener
     private const string MainSheetID = "0";
 
     // 데이터 변경이 자유로움
-    public var_Data v_data;
+    public var_Data v_data = new var_Data();
 
     // 변경되지 않을 데이터를 집중시킴
     // 데이터 변경을 엄격하게 통제, 내부 멤버는 public 으로 설정되어있으나
     // 해당 데이터는 데이터매니저를 통해 불러올수 있다.
-    private st_Data s_data;
+    private st_Data s_data = new st_Data();
 
     public int InitPoolCount => s_data.PoolInitCount;
     public Vector2 PlayerSpawnPos => s_data.Positions.PlayerSpawnPos;
@@ -36,8 +36,8 @@ public class DataManager : IListener
 
     public DataManager()
     {
-        v_data = new var_Data();
-        s_data = new st_Data();
+        //v_data = new var_Data();
+        //s_data = new st_Data();
     }
 
     #region CSV 관련
@@ -85,7 +85,8 @@ public class DataManager : IListener
         v_data.CurrentCharacter = m_character;
         v_data.PlayerData.TotalDecks = new List<int>();
         CopyDecksData();
-        v_data.PlayerData.RoundGold = 0;
+        v_data.PlayerData.RoundGold.Value = 0;
+        v_data.PlayerData.MaxAP.Value = m_character.AP.Value;
 
         void CopyDecksData()
         {
