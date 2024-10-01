@@ -38,6 +38,8 @@ public struct PlayerDeckStruct
     public bool SaveDef;
     public bool Disappear;
     public E_DeckUseType UseType;
+    public int Heal;
+    public string Description;
 }
 
 public struct MobDeckStruct

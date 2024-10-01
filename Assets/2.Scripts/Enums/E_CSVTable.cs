@@ -66,6 +66,7 @@ public enum E_PlayerDeckInfo
     SaveDef,
     Disappear,
     Heal,
+    Description,
 }
 
 public enum E_MobDeckInfo

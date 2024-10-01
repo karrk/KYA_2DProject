@@ -8,6 +8,7 @@ public class PlayerDeck : Deck
     public override int Def => Manager.Instance.Data.GetPlayerDeckData(ID).Def;
     public override bool IsDisappear => Manager.Instance.Data.GetPlayerDeckData(ID).Disappear;
     public override E_DeckType Type => Manager.Instance.Data.GetPlayerDeckData(ID).Type;
+    public override int Heal => Manager.Instance.Data.GetPlayerDeckData(ID).Heal;
 
     public E_DeckUseType UseType => Manager.Instance.Data.GetPlayerDeckData(ID).UseType;
     public E_DeckGrade Grade => Manager.Instance.Data.GetPlayerDeckData(ID).Grade;
@@ -15,8 +16,7 @@ public class PlayerDeck : Deck
     public int AlphaAtk => Manager.Instance.Data.GetPlayerDeckData(ID).AlphaAtk;
     public int SelfAtk => Manager.Instance.Data.GetPlayerDeckData(ID).SelfAtk;
     public bool SaveDef => Manager.Instance.Data.GetPlayerDeckData(ID).SaveDef;
-
-    public string Description;
+    public string Description => Manager.Instance.Data.GetPlayerDeckData(ID).Description;
 
     public int SetSortOrderValue(int m_value)
     {
@@ -26,7 +26,6 @@ public class PlayerDeck : Deck
         _mask.frontSortingOrder = m_value;
 
         _canvas.sortingOrder = m_value++;
-
 
         return m_value;
     }

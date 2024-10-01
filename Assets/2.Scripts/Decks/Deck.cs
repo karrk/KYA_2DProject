@@ -25,6 +25,7 @@ public abstract class Deck : MonoBehaviour, IPooledObject
     public abstract int Def { get; }
     public abstract bool IsDisappear { get; }
     public abstract E_DeckType Type { get; }
+    public abstract int Heal { get; }
 
     public ObjectPool MyPool => Manager.Instance.Pool.GetPool(E_PoolType.Deck);
 

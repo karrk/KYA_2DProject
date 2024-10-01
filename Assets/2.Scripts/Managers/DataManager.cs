@@ -329,6 +329,9 @@ public class DataManager : IListener
                 newDeck.SaveDef = datas[(int)E_PlayerDeckInfo.SaveDef] == "1" ? true : false;
                 newDeck.Disappear = datas[(int)E_PlayerDeckInfo.Disappear] == "1" ? true : false;
 
+                newDeck.Heal = int.Parse(datas[(int)E_PlayerDeckInfo.Heal]);
+                newDeck.Description = datas[(int)E_PlayerDeckInfo.Description];
+
                 Manager.Instance.Data.s_data.AddDeckInfo(newDeck);
             }
         }
