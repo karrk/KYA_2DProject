@@ -43,6 +43,9 @@ public class InputControll : MonoBehaviour, IListener
 
     private void Update()
     {
+        if (!_isDeckSelectMode)
+            return;
+
         _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         _hits = Physics2D.RaycastAll(_mousePos, Vector2.zero, 100f);
