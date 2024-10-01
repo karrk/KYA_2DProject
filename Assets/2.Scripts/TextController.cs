@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using TMPro;
 using UnityEngine;
@@ -21,11 +22,20 @@ public class TextController : MonoBehaviour, IBinder
         {
             if (property.Name == DBpropertyName)
             {
-                DBValue<int> value = (property.GetValue(TextPakage.Instance))as DBValue<int>;
+                Type generic = property.PropertyType.GetGenericArguments()[0];
 
-                this._tmp.text = $"{(value as DBValue<int>).Value}";
-
-                value.AddBinder(this);
+                if (generic == typeof(int))
+                {
+                    var value = property.GetValue(TextPakage.Instance) as DBValue<int>;
+                    _tmp.text = $"{value.Value}";
+                    value.AddBinder(this);
+                }
+                else if (generic == typeof(string))
+                {
+                    var value = property.GetValue(TextPakage.Instance) as DBValue<string>;
+                    _tmp.text = $"{value.Value}";
+                    value.AddBinder(this);
+                }
             }
         }
     }
