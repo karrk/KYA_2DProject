@@ -1239,8 +1239,9 @@ GameObject:
   - component: {fileID: 363068134}
   - component: {fileID: 363068136}
   - component: {fileID: 363068135}
+  - component: {fileID: 363068137}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: T_WaitDecksCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1363,6 +1364,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 363068133}
   m_CullTransparentMesh: 1
+--- !u!114 &363068137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363068133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 797379d4e0db6734d884de19d72b00b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DBpropertyName: WaitDecksCount
+  DBpropertyIdx: 7
 --- !u!1 &395851740
 GameObject:
   m_ObjectHideFlags: 0
@@ -1824,6 +1839,7 @@ GameObject:
   - component: {fileID: 622400120}
   - component: {fileID: 622400122}
   - component: {fileID: 622400121}
+  - component: {fileID: 622400123}
   m_Layer: 5
   m_Name: T_UserName
   m_TagString: Untagged
@@ -1949,6 +1965,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 622400119}
   m_CullTransparentMesh: 1
+--- !u!114 &622400123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622400119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 797379d4e0db6734d884de19d72b00b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DBpropertyName: NickName
+  DBpropertyIdx: 2
 --- !u!1 &677901802
 GameObject:
   m_ObjectHideFlags: 0
@@ -3317,8 +3347,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 797379d4e0db6734d884de19d72b00b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DBpropertyName: 
-  DBpropertyIdx: -1
+  DBpropertyName: MaxAP
+  DBpropertyIdx: 0
 --- !u!114 &982661572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3578,6 +3608,7 @@ GameObject:
   - component: {fileID: 1020715531}
   - component: {fileID: 1020715533}
   - component: {fileID: 1020715532}
+  - component: {fileID: 1020715534}
   m_Layer: 5
   m_Name: T_HP
   m_TagString: Untagged
@@ -3701,6 +3732,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1020715530}
   m_CullTransparentMesh: 1
+--- !u!114 &1020715534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1020715530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 797379d4e0db6734d884de19d72b00b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DBpropertyName: PlayerHP
+  DBpropertyIdx: 4
 --- !u!1 &1041341143
 GameObject:
   m_ObjectHideFlags: 0
@@ -3712,6 +3757,7 @@ GameObject:
   - component: {fileID: 1041341144}
   - component: {fileID: 1041341146}
   - component: {fileID: 1041341145}
+  - component: {fileID: 1041341147}
   m_Layer: 5
   m_Name: T_Gold
   m_TagString: Untagged
@@ -3835,6 +3881,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1041341143}
   m_CullTransparentMesh: 1
+--- !u!114 &1041341147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041341143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 797379d4e0db6734d884de19d72b00b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DBpropertyName: PlayerGold
+  DBpropertyIdx: 5
 --- !u!1 &1095872939
 GameObject:
   m_ObjectHideFlags: 0
@@ -3846,7 +3906,6 @@ GameObject:
   - component: {fileID: 1095872940}
   - component: {fileID: 1095872943}
   - component: {fileID: 1095872942}
-  - component: {fileID: 1095872941}
   m_Layer: 5
   m_Name: T_/
   m_TagString: Untagged
@@ -3873,20 +3932,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.000022888184, y: 0}
   m_SizeDelta: {x: 0, y: 174}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1095872941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1095872939}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 797379d4e0db6734d884de19d72b00b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DBpropertyName: 
-  DBpropertyIdx: -1
 --- !u!114 &1095872942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4584,8 +4629,9 @@ GameObject:
   - component: {fileID: 1646881674}
   - component: {fileID: 1646881676}
   - component: {fileID: 1646881675}
+  - component: {fileID: 1646881677}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: T_GraveDecksCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4708,6 +4754,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1646881673}
   m_CullTransparentMesh: 1
+--- !u!114 &1646881677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646881673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 797379d4e0db6734d884de19d72b00b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DBpropertyName: GraveDecksCount
+  DBpropertyIdx: 6
 --- !u!1 &1706127959
 GameObject:
   m_ObjectHideFlags: 0
@@ -6029,6 +6089,7 @@ GameObject:
   - component: {fileID: 2132279159}
   - component: {fileID: 2132279161}
   - component: {fileID: 2132279160}
+  - component: {fileID: 2132279162}
   m_Layer: 5
   m_Name: T_CharName
   m_TagString: Untagged
@@ -6153,6 +6214,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2132279158}
   m_CullTransparentMesh: 1
+--- !u!114 &2132279162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132279158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 797379d4e0db6734d884de19d72b00b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DBpropertyName: CharacterName
+  DBpropertyIdx: 3
 --- !u!1 &2138012951
 GameObject:
   m_ObjectHideFlags: 0

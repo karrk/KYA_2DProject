@@ -66,6 +66,8 @@ public class PlayerDeckController : MonoBehaviour, IListener
     private void Initialize()
     {
         GetPlayerDeckData();
+        UpdateGraveDecksCount();
+        UpdateWaitDecksCount();
     }
 
     private void GetPlayerDeckData()
@@ -76,15 +78,8 @@ public class PlayerDeckController : MonoBehaviour, IListener
         {
             _waitDecks.Add(playerDecks[i]);
         }
-        SuffleListElements(_waitDecks);
-    }
 
-    private void SetupPlayerDeck()
-    {
-        for (int i = 0; i < PullDeckCount; i++)
-        {
-            WaitToHand();
-        }
+        SuffleListElements(_waitDecks);
     }
 
     private IEnumerator StepWaitToHand()
@@ -127,6 +122,8 @@ public class PlayerDeckController : MonoBehaviour, IListener
         PlayerDeck deck = _realizeDecks[m_onHandIdx];
         _mover.MoveToGrave(deck);
         _realizeDecks.RemoveAt(m_onHandIdx);
+
+        UpdateGraveDecksCount();
     }
 
     /// <summary>
@@ -146,6 +143,8 @@ public class PlayerDeckController : MonoBehaviour, IListener
 
         PlayerDeck deck = RealizeDeck(deckId);
         _mover.MoveToHand(deck);
+
+        UpdateWaitDecksCount();
     }
 
     /// <summary>
@@ -156,6 +155,18 @@ public class PlayerDeckController : MonoBehaviour, IListener
         _waitDecks.Add(_graves[m_listIdx]);
         _graves.RemoveAt(m_listIdx);
 
+        UpdateWaitDecksCount();
+        UpdateGraveDecksCount();
+    }
+
+    private void UpdateWaitDecksCount()
+    {
+        Manager.Instance.Data.v_data.WaitDecksCount.Value = _waitDecks.Count;
+    }
+
+    private void UpdateGraveDecksCount()
+    {
+        Manager.Instance.Data.v_data.GraveDecksCount.Value = _graves.Count;
     }
 
     private void UseDeck(int m_idx)

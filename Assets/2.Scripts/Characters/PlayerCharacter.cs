@@ -29,6 +29,7 @@ public class PlayerCharacter : Character, IListener, IWaiter
     protected override void Initialilze()
     {
         base.Initialilze();
+        Manager.Instance.Data.v_data.CurrentCharacter = this;
     }
 
     private void Ready()

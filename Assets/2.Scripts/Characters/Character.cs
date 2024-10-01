@@ -35,6 +35,9 @@ public abstract class Character : MonoBehaviour
         }
     }
 
+    private DBValue<string> _name = new DBValue<string>();
+    public DBValue<string> Name => _name;
+
     private DBValue<int> _hp = new DBValue<int>();
     public DBValue<int> HP => _hp;
 
@@ -46,6 +49,7 @@ public abstract class Character : MonoBehaviour
         _anim = GetComponent<Animator>();
         InitHP();
         InitAP();
+        SetName();
     }
 
     protected void ConnectAnimatorController()
@@ -88,6 +92,11 @@ public abstract class Character : MonoBehaviour
     protected void AddAP(int m_value)
     {
         this._ap.Value += m_value;
+    }
+
+    protected void SetName()
+    {
+        this._name.Value = _charInfo.Name;
     }
 
     public abstract void ApplyDeck(PlayerDeck m_deck);

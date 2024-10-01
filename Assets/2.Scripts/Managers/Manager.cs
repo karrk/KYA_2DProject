@@ -119,8 +119,8 @@ public class Manager : MonoBehaviour
         yield return Data.LoadData();
 
         // 임시
-        PlayerCharacter character = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCharacter>();
-        Data.RegistInitCharacter(character);
+        //PlayerCharacter character = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCharacter>();
+        Data.RegistInitCharacter(Data.v_data.PlayerData.SelectedCharacterID);
         // 임시
 
         Pool.CreatePool(E_PoolType.Deck);

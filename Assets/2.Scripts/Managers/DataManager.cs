@@ -30,7 +30,7 @@ public class DataManager : IListener
     public int DeckInitSortValue = 10;
     public uint DeckMaskLayerNumber = 1<<9;
     public float DeckMoveAnimTime => 0.5f;
-    public float DeckWidth => 1.8f;
+    public float DeckWidth => 2f;
     public float DeckPullCoolTime => 0.2f;
 
 
@@ -80,13 +80,12 @@ public class DataManager : IListener
         }
     }
 
-    public void RegistInitCharacter(PlayerCharacter m_character)
+    public void RegistInitCharacter(int m_characterID)
     {
-        v_data.CurrentCharacter = m_character;
         v_data.PlayerData.TotalDecks = new List<int>();
         CopyDecksData();
         v_data.PlayerData.RoundGold.Value = 0;
-        v_data.PlayerData.MaxAP.Value = m_character.AP.Value;
+        v_data.PlayerData.MaxAP.Value = s_data.Characters[m_characterID].AbilityPoint;
 
         void CopyDecksData()
         {
