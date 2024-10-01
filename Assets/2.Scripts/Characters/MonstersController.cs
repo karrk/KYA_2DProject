@@ -13,6 +13,8 @@ public class MonstersController : MonoBehaviour, IListener, IWaiter
     {
         Manager.Instance.Event.AddListener(E_Events.ChangedBattleScene,this);
         Manager.Instance.Event.AddListener(E_Events.BattleReady,this);
+
+        Manager.Instance.Data.v_data.CurrentMobsController = this;
     }
 
     public void OnEvent(E_Events m_eventType, System.ComponentModel.Component m_order, object m_param)
