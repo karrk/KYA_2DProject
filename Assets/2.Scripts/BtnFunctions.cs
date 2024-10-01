@@ -2,18 +2,21 @@ using UnityEngine;
 
 public class BtnFunctions
 {
-    public void VoidAction()
+    public static void NoneAction() { Debug.Log("None"); }
+
+    public static void ExitPlayerTurn()
     {
-        Debug.Log("void");
+        Debug.Log("플레이어 턴 종료");
     }
 
-    public void FloatAction(float m_value)
+    public static void TextStr(string m_str)
     {
-        Debug.Log(m_value);
+        Debug.Log(m_str);
     }
 
-    public void StringAction(string m_value)
+    public static void Textff(float m_f)
     {
-        Debug.Log(m_value);
+        Debug.Log(m_f);
     }
+
 }
