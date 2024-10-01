@@ -38,6 +38,6 @@ public abstract class Deck : MonoBehaviour, IPooledObject
 
     public void ReturnObj()
     {
-        throw new System.NotImplementedException();
+        MyPool.ReturnObj(this);
     }
 }

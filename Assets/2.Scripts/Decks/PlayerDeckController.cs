@@ -7,19 +7,18 @@ public class PlayerDeckController : MonoBehaviour, IListener
     private PlayerDeckCreator _creator;
     private PlayerDeckMover _mover;
 
-    private Vector2 GravePos => Manager.Instance.Data.DeckGravePos;
-    private Vector2 HandPos => Manager.Instance.Data.DeckHandPos;
-    private Vector2 WaitPos => Manager.Instance.Data.DeckWaitPos;
-
     private int PullDeckCount => Manager.Instance.Data.v_data.CurrentCharacter.PullDeckCount;
     private int AP => Manager.Instance.Data.v_data.CurrentCharacter.AP;
 
     private List<int> _graves = new List<int>();
     private List<int> _onHands = new List<int>();
     private List<int> _waitDecks = new List<int>();
+    private List<PlayerDeck> _realizeDecks = new List<PlayerDeck>();
 
     private WaitForSeconds _deckPullSec;
-    private Coroutine _deckPullRoutine;
+    private Coroutine _WaitToHandRoutine;
+    private Coroutine _HandToGraveRoutine;
+    private Coroutine _GraveToWaitRoutine;
 
     private int _lastSortValue;
     private uint _lastLayerMask;
@@ -52,15 +51,15 @@ public class PlayerDeckController : MonoBehaviour, IListener
         }
         else if(m_eventType == E_Events.PlayerTurn)
         {
-            if(_deckPullRoutine != null) { StopCoroutine(_deckPullRoutine); }
+            if(_WaitToHandRoutine != null) { StopCoroutine(_WaitToHandRoutine); }
 
             _lastSortValue = Manager.Instance.Data.DeckInitSortValue;
             _lastLayerMask = Manager.Instance.Data.DeckMaskLayerNumber;
-            _deckPullRoutine = StartCoroutine(MultiDecksPull());
+            _WaitToHandRoutine = StartCoroutine(StepWaitToHand());
         }
         else if(m_eventType == E_Events.PlayerTurnEnd)
         {
-            ReturnAllHands();
+            _HandToGraveRoutine = StartCoroutine(StepHandToGrave());
         }
     }
 
@@ -77,9 +76,8 @@ public class PlayerDeckController : MonoBehaviour, IListener
         {
             _waitDecks.Add(playerDecks[i]);
         }
+        SuffleListElements(_waitDecks);
     }
-
-    
 
     private void SetupPlayerDeck()
     {
@@ -89,7 +87,7 @@ public class PlayerDeckController : MonoBehaviour, IListener
         }
     }
 
-    private IEnumerator MultiDecksPull()
+    private IEnumerator StepWaitToHand()
     {
         for (int i = 0; i < PullDeckCount; i++)
         {
@@ -98,14 +96,23 @@ public class PlayerDeckController : MonoBehaviour, IListener
         }
     }
 
-    /// <summary>
-    /// Hand에 있는 모든 덱 => Grave
-    /// </summary>
-    private void ReturnAllHands()
+    private IEnumerator StepHandToGrave()
     {
-        for (int i = _onHands.Count-1; i >= 0; i--)
+        for (int i = 0; i < _onHands.Count; i = 0)
         {
             HandToGrave(i);
+            yield return _deckPullSec;
+        }
+    }
+
+    private IEnumerator StepGraveToWait()
+    {
+        SuffleListElements(_graves);
+
+        for (int i = _graves.Count-1; i >= 0; i--)
+        {
+            GraveToWaits(i);
+            yield return _deckPullSec;
         }
     }
 
@@ -116,6 +123,10 @@ public class PlayerDeckController : MonoBehaviour, IListener
     {
         _graves.Add(_waitDecks[m_onHandIdx]);
         _onHands.RemoveAt(m_onHandIdx);
+
+        PlayerDeck deck = _realizeDecks[m_onHandIdx];
+        _mover.MoveToGrave(deck);
+        _realizeDecks.RemoveAt(m_onHandIdx);
     }
 
     /// <summary>
@@ -123,29 +134,28 @@ public class PlayerDeckController : MonoBehaviour, IListener
     /// </summary>
     private void WaitToHand()
     {
+        if(_waitDecks.Count == 0) // 대기 덱이 없다면 묘지에서 끌어오기
+        {
+            _GraveToWaitRoutine = StartCoroutine(StepGraveToWait());
+        }
+
         int deckId = _waitDecks[_waitDecks.Count - 1];
 
         _onHands.Add(deckId);
         _waitDecks.RemoveAt(_waitDecks.Count - 1);
 
-        PlayerDeck deckObject = _creator.GetPlayerDeck(deckId);
-        _lastSortValue = deckObject.SetSortOrderValue(_lastSortValue);
-        _lastLayerMask = deckObject.SetLayerMask(_lastLayerMask);
-        _mover.MoveToPos(deckObject.transform, WaitPos, HandPos);
+        PlayerDeck deck = RealizeDeck(deckId);
+        _mover.MoveToHand(deck);
     }
-
-    
 
     /// <summary>
     /// Grave의 덱들을 전부 대기열에 추가
     /// </summary>
-    private void GraveToWaits()
+    private void GraveToWaits(int m_listIdx)
     {
-        for (int i = _graves.Count-1; i >= 0 ; i--)
-        {
-            _waitDecks.Add(_graves[i]);
-            _graves.RemoveAt(i);
-        }
+        _waitDecks.Add(_graves[m_listIdx]);
+        _graves.RemoveAt(m_listIdx);
+
     }
 
     private void UseDeck(int m_idx)
@@ -167,21 +177,37 @@ public class PlayerDeckController : MonoBehaviour, IListener
 
     }
 
-    private void SuffleWaits()
+    private PlayerDeck RealizeDeck(int m_id)
     {
-        for (int i = _waitDecks.Count-1; i > 0; i--)
+        PlayerDeck deckObject = _creator.GetPlayerDeck(m_id);
+        _lastSortValue = deckObject.SetSortOrderValue(_lastSortValue);
+        _lastLayerMask = deckObject.SetLayerMask(_lastLayerMask);
+        _realizeDecks.Add(deckObject);
+
+        return deckObject;
+    }
+
+    private void SuffleListElements(List<int> m_list)
+    {
+        for (int i = m_list.Count-1; i > 0; i--)
         {
             int randIdx = Random.Range(0, i - 1);
 
-            int temp = _waitDecks[randIdx];
-            _waitDecks[randIdx] = _waitDecks[i];
-            _waitDecks[i] = temp;
+            int temp = m_list[randIdx];
+            m_list[randIdx] = m_list[i];
+            m_list[i] = temp;
         }
     }
 
     private void OnDisable()
     {
-        if (_deckPullRoutine != null)
-            StopCoroutine(_deckPullRoutine);
+        if (_WaitToHandRoutine != null)
+            StopCoroutine(_WaitToHandRoutine);
+
+        if (_HandToGraveRoutine != null)
+            StopCoroutine(_HandToGraveRoutine);
+
+        if (_GraveToWaitRoutine != null)
+            StopCoroutine(_GraveToWaitRoutine);
     }
 }

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
@@ -105,6 +106,7 @@ public class Manager : MonoBehaviour
             Destroy(this.gameObject);
 
         AddManagerEvent();
+        DOTween.Init(false, true, LogBehaviour.Verbose).SetCapacity(200, 50);
     }
 
     private void Start()

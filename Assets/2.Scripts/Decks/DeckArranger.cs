@@ -18,9 +18,9 @@ public class DeckArranger : MonoBehaviour
         _mover = GetComponent<PlayerDeckMover>();
     }
 
-    public void SendDeck(Transform m_deck)
+    public void SendDeck(PlayerDeck m_deck)
     {
-        _arrangedDecks.Add(m_deck);
+        _arrangedDecks.Add(m_deck.transform);
         _posXs.Add(0);
         Arrange();
     }
