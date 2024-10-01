@@ -6,8 +6,9 @@ TagManager:
   tags:
   - Poser
   - Deck
-  - UseArea
   - Monster
+  - NoUseArea
+  - MonstersController
   layers:
   - Default
   - TransparentFX
