@@ -45,8 +45,9 @@ public enum E_DeckGrade
 
 public enum E_DeckUseType
 {
-    NonTarget,
+    NonTarget = 1,
     Targetting,
+    Self,
 }
 
 public enum E_PlayerDeckInfo
