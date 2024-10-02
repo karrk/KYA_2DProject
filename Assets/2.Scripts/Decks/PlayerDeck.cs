@@ -22,10 +22,17 @@ public class PlayerDeck : Deck
     [SerializeField] private int _arrangeIdx;
     public int ArrangeIdx => _arrangeIdx;
 
-    [SerializeField] private int _usedTweenIdx = -1;
+    private int _usedTweenIdx = -1;
     public int UsedTweenIdx => _usedTweenIdx;
 
     public bool IsOnFocus => _baseSprite.sortingOrder >= 50;
+
+    private BoxCollider2D _collider;
+
+    private void Start()
+    {
+        _collider = GetComponent<BoxCollider2D>();
+    }
 
     public void SetFocusOnSort()
     {
@@ -51,6 +58,11 @@ public class PlayerDeck : Deck
         _mask.frontSortingOrder -= 50;
 
         _canvas.sortingOrder -= 50;
+    }
+
+    public void SetCollider(bool m_active)
+    {
+        _collider.enabled = m_active;
     }
 
     public void SetUsedTweenIdx(int m_value)

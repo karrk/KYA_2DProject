@@ -27,7 +27,6 @@ public class PlayerDeckController : MonoBehaviour, IListener
 
     private void Start()
     {
-        Manager.Instance.Event.AddListener(E_Events.BattleReady,this);
         Manager.Instance.Event.AddListener(E_Events.PlayerTurn,this);
         Manager.Instance.Event.AddListener(E_Events.PlayerTurnEnd,this);
 
@@ -39,21 +38,9 @@ public class PlayerDeckController : MonoBehaviour, IListener
         _deckPullSec = new WaitForSeconds(Manager.Instance.Data.DeckPullCoolTime);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            Manager.Instance.Event.PlayEvent(E_Events.BattleReady);
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-            Manager.Instance.Event.PlayEvent(E_Events.PlayerTurn);
-    }
-
     public void OnEvent(E_Events m_eventType, System.ComponentModel.Component m_order, object m_param)
     {
-        if(m_eventType == E_Events.BattleReady)
-        {
-            Initialize();
-        }
-        else if(m_eventType == E_Events.PlayerTurn)
+        if(m_eventType == E_Events.PlayerTurn)
         {
             if(_WaitToHandRoutine != null) { StopCoroutine(_WaitToHandRoutine); }
 
@@ -70,7 +57,7 @@ public class PlayerDeckController : MonoBehaviour, IListener
         }
     }
 
-    private void Initialize()
+    public void Initialize()
     {
         GetPlayerDeckData();
         UpdateGraveDecksCount();
@@ -210,6 +197,7 @@ public class PlayerDeckController : MonoBehaviour, IListener
         if(AP >= needCost)
         {
             HandToGrave(m_idx);
+            _realizeDecks[m_idx].SetCollider(false);
             //AP 소비
             //사용 액션
         }

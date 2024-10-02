@@ -37,13 +37,14 @@ public class PlayerDeckMover : MonoBehaviour
             _tweens[m_idx].Kill();
     }
 
-    
-
     public void MoveToHand(PlayerDeck m_deck, E_TweenType m_animType = E_TweenType.None)
     {
         m_deck.transform.position = WaitPos;
         m_deck.transform.DOMove(HandPos, MoveTime)
-            .OnComplete(() => { _arranger.SendDeck(m_deck); });
+            .OnComplete(() => { 
+                _arranger.SendDeck(m_deck);
+                m_deck.SetCollider(true);
+            });
     }
 
     public void MoveToGrave(PlayerDeck m_deck, E_TweenType m_animType = E_TweenType.None)
