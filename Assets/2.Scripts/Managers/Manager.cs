@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
@@ -128,5 +129,39 @@ public class Manager : MonoBehaviour
     private void AddManagerEvent()
     {
         Event.AddListener(E_Events.ChangedBattleScene,Data);
+    }
+
+    public void SceneLoad(int m_sceneNumber)
+    {
+        StartCoroutine(SceneLoadRoutine(m_sceneNumber));
+    }
+
+    private IEnumerator SceneLoadRoutine(int m_sceneNumber)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(m_sceneNumber);
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        E_Scene scene = (E_Scene)m_sceneNumber;
+
+        switch (scene)
+        {
+            case E_Scene.MainMenu:
+                break;
+            case E_Scene.BattleScene:
+                Event.PlayEvent(E_Events.ChangedBattleScene);
+                break;
+            case E_Scene.BounsArea:
+                break;
+            case E_Scene.Ending:
+                break;
+            case E_Scene.UnknownArea:
+                break;
+            default:
+                break;
+        }
     }
 }
