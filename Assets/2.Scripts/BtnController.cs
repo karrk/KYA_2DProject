@@ -7,6 +7,7 @@ public class BtnController : MonoBehaviour
 {
     [HideInInspector] public float _floatParam;
     [HideInInspector] public string _strParam;
+    [HideInInspector] public GameObject _gameobjParam;
 
     [HideInInspector] public string _selectedMethodName;
     [HideInInspector] public MethodInfo _selectedMethod;
@@ -48,6 +49,10 @@ public class BtnController : MonoBehaviour
                 else if (_selectedMethod.GetParameters()[0].ParameterType == typeof(string))
                 {
                     _selectedMethod.Invoke(this, new object[] { _strParam });
+                }
+                else if (_selectedMethod.GetParameters()[0].ParameterType == typeof(GameObject))
+                {
+                    _selectedMethod.Invoke(this, new object[] { _gameobjParam });
                 }
             };
 

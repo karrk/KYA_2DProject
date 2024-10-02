@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BtnFunctions
 {
@@ -17,4 +18,24 @@ public class BtnFunctions
 #endif
     }
 
+    public static void SelectCharacter(float m_value)
+    {
+        Manager.Instance.Data.v_data.PlayerData.SelectedCharacterID = (int)m_value;
+        Manager.Instance.Data.v_data.Illust.SetImage((int)m_value);
+    }
+
+    public static void StartGame()
+    {
+        Manager.Instance.SceneLoad((int)E_Scene.BattleScene);
+    }
+
+    public static void TurnOffObject(GameObject m_obj)
+    {
+        m_obj.SetActive(false);
+    }
+
+    public static void TurnOnObject(GameObject m_obj)
+    {
+        m_obj.SetActive(true);
+    }
 }
