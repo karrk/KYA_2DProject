@@ -31,7 +31,7 @@ public class DeckArranger : MonoBehaviour
         _posXs.Clear();
     }
 
-    private void Arrange()
+    public void Arrange()
     {
         CalculatePos();
         Transform tr;
@@ -39,7 +39,8 @@ public class DeckArranger : MonoBehaviour
         for (int i = 0; i < _arrangedDecks.Count; i++)
         {
             tr = _arrangedDecks[i];
-            _mover.MoveArrange(tr,new Vector2(_posXs[i], tr.position.y));
+            _mover.MoveArrange(tr.GetComponent<PlayerDeck>(),
+                new Vector2(_posXs[i],Manager.Instance.Data.DeckHandPos.y));
         }
     }
 
@@ -53,5 +54,8 @@ public class DeckArranger : MonoBehaviour
         }
     }
 
-
+    public float GetPosX(int m_idx)
+    {
+        return _posXs[m_idx];
+    }
 }

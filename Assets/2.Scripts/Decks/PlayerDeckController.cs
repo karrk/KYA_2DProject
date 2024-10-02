@@ -23,11 +23,15 @@ public class PlayerDeckController : MonoBehaviour, IListener
     private int _lastSortValue;
     private uint _lastLayerMask;
 
+    private int _lastHandIdx;
+
     private void Start()
     {
         Manager.Instance.Event.AddListener(E_Events.BattleReady,this);
         Manager.Instance.Event.AddListener(E_Events.PlayerTurn,this);
         Manager.Instance.Event.AddListener(E_Events.PlayerTurnEnd,this);
+
+        Manager.Instance.Data.v_data.PlayerDeckController = this;
 
         _creator = GetComponent<PlayerDeckCreator>();
         _mover = GetComponent<PlayerDeckMover>();
@@ -53,9 +57,12 @@ public class PlayerDeckController : MonoBehaviour, IListener
         {
             if(_WaitToHandRoutine != null) { StopCoroutine(_WaitToHandRoutine); }
 
+            _lastHandIdx = 0;
+            _mover.ResetTweenIdx();
             _lastSortValue = Manager.Instance.Data.DeckInitSortValue;
             _lastLayerMask = Manager.Instance.Data.DeckMaskLayerNumber;
             _WaitToHandRoutine = StartCoroutine(StepWaitToHand());
+            
         }
         else if(m_eventType == E_Events.PlayerTurnEnd)
         {
@@ -142,6 +149,9 @@ public class PlayerDeckController : MonoBehaviour, IListener
         _waitDecks.RemoveAt(_waitDecks.Count - 1);
 
         PlayerDeck deck = RealizeDeck(deckId);
+        deck.SetArrangeIdx(_lastHandIdx);
+        _lastHandIdx++;
+        _mover.AssignTweenIdx(deck);
         _mover.MoveToHand(deck);
 
         UpdateWaitDecksCount();
@@ -167,6 +177,29 @@ public class PlayerDeckController : MonoBehaviour, IListener
     private void UpdateGraveDecksCount()
     {
         Manager.Instance.Data.v_data.GraveDecksCount.Value = _graves.Count;
+    }
+
+    public void AvoidDecks(int m_handIdx)
+    {
+        for (int i = 0; i < m_handIdx; i++)
+        {
+            _mover.AvoidMove(_realizeDecks[i],-1 *Manager.Instance.Data.DeckAvoidMoveDist);
+            _realizeDecks[i].SetFocusOutSort();
+        }
+
+        for (int i = m_handIdx+1; i < _onHands.Count; i++)
+        {
+            _mover.AvoidMove(_realizeDecks[i], Manager.Instance.Data.DeckAvoidMoveDist);
+            _realizeDecks[i].SetFocusOutSort();
+        }
+
+        _mover.FocusMove(_realizeDecks[m_handIdx], Manager.Instance.Data.DeckFocusDist);
+        _realizeDecks[m_handIdx].SetFocusOnSort();
+    }
+
+    public void ReArrange()
+    {
+        _mover.ReArrangeMove();
     }
 
     private void UseDeck(int m_idx)

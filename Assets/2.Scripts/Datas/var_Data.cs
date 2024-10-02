@@ -8,6 +8,7 @@ public class var_Data
     public PlayerCharacter CurrentCharacter;
     public Monster[] MonstersDatas;
     public MonstersController CurrentMobsController;
+    public PlayerDeckController PlayerDeckController;
 
     public DBValue<int> WaitDecksCount = new DBValue<int>();
     public DBValue<int> GraveDecksCount = new DBValue<int>();

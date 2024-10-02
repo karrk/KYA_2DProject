@@ -1,4 +1,5 @@
-using System.Security.Cryptography;
+using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerDeck : Deck
 {
@@ -17,6 +18,50 @@ public class PlayerDeck : Deck
     public int SelfAtk => Manager.Instance.Data.GetPlayerDeckData(ID).SelfAtk;
     public bool SaveDef => Manager.Instance.Data.GetPlayerDeckData(ID).SaveDef;
     public string Description => Manager.Instance.Data.GetPlayerDeckData(ID).Description;
+
+    [SerializeField] private int _arrangeIdx;
+    public int ArrangeIdx => _arrangeIdx;
+
+    [SerializeField] private int _usedTweenIdx = -1;
+    public int UsedTweenIdx => _usedTweenIdx;
+
+    public bool IsOnFocus => _baseSprite.sortingOrder >= 50;
+
+    public void SetFocusOnSort()
+    {
+        if (IsOnFocus)
+            return;
+
+        _baseSprite.sortingOrder += 50;
+
+        _deckImage.sortingOrder += 50;
+        _mask.frontSortingOrder += 50;
+
+        _canvas.sortingOrder += 50;
+    }
+
+    public void SetFocusOutSort()
+    {
+        if (!IsOnFocus)
+            return;
+
+        _baseSprite.sortingOrder -= 50;
+
+        _deckImage.sortingOrder -= 50;
+        _mask.frontSortingOrder -= 50;
+
+        _canvas.sortingOrder -= 50;
+    }
+
+    public void SetUsedTweenIdx(int m_value)
+    {
+        this._usedTweenIdx = m_value;
+    }
+
+    public void SetArrangeIdx(int m_value)
+    {
+        this._arrangeIdx = m_value;
+    }
 
     public int SetSortOrderValue(int m_value)
     {

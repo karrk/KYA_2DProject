@@ -26,19 +26,16 @@ public class DataManager : IListener
     public Vector2 DeckGravePos => s_data.Positions.DeckGravePos;
     public Vector2 DeckHandPos => s_data.Positions.DeckHandPos;
     public Vector2 DeckWaitPos => s_data.Positions.DeckWaitPos;
+    
 
     public int DeckInitSortValue = 10;
     public uint DeckMaskLayerNumber = 1<<9;
     public float DeckMoveAnimTime => 0.5f;
-    public float DeckWidth => 2f;
+    public float DeckWidth => 1.5f;
     public float DeckPullCoolTime => 0.2f;
-
-
-    public DataManager()
-    {
-        //v_data = new var_Data();
-        //s_data = new st_Data();
-    }
+    public float DeckAvoidMoveDist = 1f;
+    public float DeckAvoidSpeed = 0.1f;
+    public float DeckFocusDist => 1f;
 
     #region CSV ฐüทร
 

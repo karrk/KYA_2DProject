@@ -11,15 +11,16 @@ public class InputControll : MonoBehaviour, IListener
     private bool _hitMonsterFrame;
     private bool _hitDeckFrame;
 
-    [SerializeField] private Collider2D _onCursorDeck;
+    [SerializeField] private PlayerDeck _onCursorDeck;
     [SerializeField] private PlayerDeck _selectedDeck;
+    [SerializeField] private PlayerDeck _lastDeck;
 
     [SerializeField] private Collider2D _onCursorMob;
 
     private RaycastHit2D[] _hits;
     private Vector2 _mousePos;
 
-    
+    private bool _isDeckLogicComplete;
 
     private void Start()
     {
@@ -32,14 +33,13 @@ public class InputControll : MonoBehaviour, IListener
         if(m_eventType == E_Events.PlayerTurn)
         {
             _isDeckSelectMode = true;
+            _isDeckLogicComplete = false;
         }
         else if(m_eventType == E_Events.PlayerTurnEnd)
         {
             _isDeckSelectMode = false;
         }
     }
-
-
 
     private void Update()
     {
@@ -53,10 +53,11 @@ public class InputControll : MonoBehaviour, IListener
         _hitNoUseAreaFrame = false;
         _hitMonsterFrame = false;
         _hitDeckFrame = false;
+        _isDeckLogicComplete = false;
 
         foreach (var hit in _hits)
         {
-            if(hit.collider.CompareTag("NoUseArea"))
+            if(hit.collider.CompareTag("NoUseArea")) 
             {
                 _hitNoUseAreaFrame = true;
 
@@ -73,9 +74,21 @@ public class InputControll : MonoBehaviour, IListener
 
             else if(hit.collider.CompareTag("Deck"))
             {
-                _hitDeckFrame = true;
+                if(!_isDeckLogicComplete)
+                {
+                    _hitDeckFrame = true; // 이번 프레임에 감지되었다
 
-                _onCursorDeck = hit.collider;
+                    if (hit.collider.TryGetComponent<PlayerDeck>(out _onCursorDeck)) // 해당 컴포넌트를 불러와서.
+                    {
+                        if (_lastDeck != _onCursorDeck) // 마지막으로 확인했던 덱과 다르다면
+                        {
+                            Manager.Instance.Data.v_data.PlayerDeckController.AvoidDecks(_onCursorDeck.ArrangeIdx); // 트윈
+                            _lastDeck = _onCursorDeck;
+                        }
+
+                        _isDeckLogicComplete = true;
+                    }
+                }
             }
         }
 
@@ -85,8 +98,18 @@ public class InputControll : MonoBehaviour, IListener
         if (!_hitMonsterFrame)
             _onCursorMob = null;
 
-        if (!_hitDeckFrame)
-            _onCursorDeck = null;
+        if (!_hitDeckFrame) // 이번프레임에 덱 충돌이 없었다면
+        {
+            _onCursorDeck = null; // 커서에 있는 덱은 없애고,
+            
+            if(_lastDeck != null) // 만약 마지막으로 등록되었던 덱이 있다면
+            {
+                Manager.Instance.Data.v_data.PlayerDeckController.ReArrange(); // 덱 들을 전부 재정립
+                _lastDeck.SetFocusOutSort();
+                _lastDeck = null;
+            }
+        }
+            
 
         if(Input.GetMouseButtonDown(0))
         {
