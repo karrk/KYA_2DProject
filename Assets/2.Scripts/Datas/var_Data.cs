@@ -13,6 +13,8 @@ public class var_Data
     public DBValue<int> WaitDecksCount = new DBValue<int>();
     public DBValue<int> GraveDecksCount = new DBValue<int>();
 
+    public IllustController Illust;
+
     public var_Data()
     {
         InitPlayerData();
