@@ -12,17 +12,19 @@ public class MonstersController : MonoBehaviour, IListener, IWaiter
     private void Start()
     {
         Manager.Instance.Event.AddListener(E_Events.ChangedBattleScene,this);
-        Manager.Instance.Event.AddListener(E_Events.BattleReady,this);
+        //Manager.Instance.Event.AddListener(E_Events.BattleReady,this);
 
         Manager.Instance.Data.v_data.CurrentMobsController = this;
+
+        Manager.Instance.Wait.AddWaiter(E_Events.ChangedBattleScene, this);
     }
 
     public void OnEvent(E_Events m_eventType, System.ComponentModel.Component m_order, object m_param)
     {
         if (m_eventType == E_Events.ChangedBattleScene)
             InitMonsters();
-        else if (m_eventType == E_Events.BattleReady)
-            ReadyMonsters();
+        //else if (m_eventType == E_Events.BattleReady)
+        //    ReadyMonsters();
 
     }
 
@@ -74,6 +76,8 @@ public class MonstersController : MonoBehaviour, IListener, IWaiter
 
         GetMonsters(mobCount);
         RegistRandomMob(0, 3);
+
+        SendFinishSign(E_Events.ChangedBattleScene);
     }
 
     private void RegistRandomMob(int m_minRange, int m_maxRange)
@@ -101,11 +105,11 @@ public class MonstersController : MonoBehaviour, IListener, IWaiter
 
     public void StartNextAction(E_Events m_prevEvent)
     {
-        throw new System.NotImplementedException();
+        ReadyMonsters();
     }
 
     public void SendFinishSign(E_Events m_finEvent)
     {
-        throw new System.NotImplementedException();
+        Manager.Instance.Wait.SendFinishSign(m_finEvent);
     }
 }

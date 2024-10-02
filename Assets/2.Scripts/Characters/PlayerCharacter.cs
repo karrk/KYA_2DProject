@@ -14,7 +14,8 @@ public class PlayerCharacter : Character, IListener, IWaiter
         _charInfo = new PlayerCharacterInfo();
 
         Manager.Instance.Event.AddListener(E_Events.ChangedBattleScene, this);
-        Manager.Instance.Event.AddListener(E_Events.BattleReady, this);
+
+        Manager.Instance.Wait.AddWaiter(E_Events.ChangedBattleScene, this);
     }
 
     public void OnEvent(E_Events m_eventType, System.ComponentModel.Component m_order, object m_param)
@@ -22,14 +23,16 @@ public class PlayerCharacter : Character, IListener, IWaiter
         if (m_eventType == E_Events.ChangedBattleScene)
             Initialilze();
 
-        else if(m_eventType == E_Events.BattleReady)
-            Ready();
+        //else if(m_eventType == E_Events.BattleReady)
+        //    Ready();
     }
 
     protected override void Initialilze()
     {
         base.Initialilze();
         Manager.Instance.Data.v_data.CurrentCharacter = this;
+
+        SendFinishSign(E_Events.ChangedBattleScene);
     }
 
     private void Ready()
@@ -60,12 +63,12 @@ public class PlayerCharacter : Character, IListener, IWaiter
 
     public void StartNextAction(E_Events m_prevEvent)
     {
-        throw new System.NotImplementedException();
+        Ready();
     }
 
     public void SendFinishSign(E_Events m_finEvent)
     {
-        throw new System.NotImplementedException();
+        Manager.Instance.Wait.SendFinishSign(m_finEvent);
     }
 
     public override void ApplyDeck(PlayerDeck m_deck)
