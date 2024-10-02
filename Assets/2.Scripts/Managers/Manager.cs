@@ -156,6 +156,7 @@ public class Manager : MonoBehaviour
             case E_Scene.BattleScene:
                 Event.PlayEvent(E_Events.ChangedBattleScene);
                 TextController.Bind();
+                Data.v_data.PlayerDeckController.Initialize();
                 break;
             case E_Scene.BounsArea:
                 break;

@@ -7,6 +7,7 @@ public enum E_CharacterState
 {
     None,
     Idel,
+    ReadyComplete,
     Attack,
     OnDamage,
     Dead,

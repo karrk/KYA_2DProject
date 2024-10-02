@@ -1,6 +1,7 @@
 using UnityEditor.Animations;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 public abstract class Character : MonoBehaviour
 {
@@ -22,6 +23,9 @@ public abstract class Character : MonoBehaviour
                 case E_CharacterState.Idel:
                     IdelAction();
                     break;
+                case E_CharacterState.ReadyComplete:
+                    ReadyCompleteAction();
+                    break;
                 case E_CharacterState.Attack:
                     AttackAction();
                     break;
@@ -35,6 +39,7 @@ public abstract class Character : MonoBehaviour
         }
     }
 
+    
     private DBValue<string> _name = new DBValue<string>();
     public DBValue<string> Name => _name;
 
@@ -66,12 +71,19 @@ public abstract class Character : MonoBehaviour
 
     protected abstract void DeadAction();
 
+    protected abstract void ReadyCompleteAction();
+
+
     protected void MoveToReadyPos()
     {
         _anim.SetBool("IsWalk", true);
         transform.position = SpawnPos;
         transform.DOMove(ReadyPos, 4f).SetEase(Ease.Linear)
-            .OnComplete(() => { _anim.SetBool("IsWalk", false); });
+            .OnComplete(() => 
+            { 
+                _anim.SetBool("IsWalk", false);
+                State = E_CharacterState.ReadyComplete;
+            });
     }
 
     protected void InitHP()

@@ -45,6 +45,11 @@ public class Monster : Character
         throw new System.NotImplementedException();
     }
 
+    protected override void ReadyCompleteAction()
+    {
+
+    }
+
     protected override void OnDamageAction()
     {
         throw new System.NotImplementedException();

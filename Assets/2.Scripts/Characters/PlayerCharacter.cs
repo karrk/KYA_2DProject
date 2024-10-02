@@ -23,8 +23,6 @@ public class PlayerCharacter : Character, IListener, IWaiter
         if (m_eventType == E_Events.ChangedBattleScene)
             Initialilze();
 
-        //else if(m_eventType == E_Events.BattleReady)
-        //    Ready();
     }
 
     protected override void Initialilze()
@@ -61,9 +59,15 @@ public class PlayerCharacter : Character, IListener, IWaiter
         throw new System.NotImplementedException();
     }
 
+    protected override void ReadyCompleteAction()
+    {
+        Manager.Instance.Event.PlayEvent(E_Events.PlayerTurn);
+    }
+
     public void StartNextAction(E_Events m_prevEvent)
     {
-        Ready();
+        if(m_prevEvent == E_Events.ChangedBattleScene)
+            Ready();
     }
 
     public void SendFinishSign(E_Events m_finEvent)
@@ -82,4 +86,6 @@ public class PlayerCharacter : Character, IListener, IWaiter
         // 몬스터 => 플레이어 몬스터 덱의 영향
 
     }
+
+    
 }
