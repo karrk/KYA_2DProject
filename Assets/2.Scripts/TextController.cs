@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
 using UnityEngine;
@@ -9,9 +10,23 @@ public class TextController : MonoBehaviour, IBinder
     [HideInInspector] public int DBpropertyIdx = -1;
     private TextMeshProUGUI _tmp;
 
+    private static List<TextController> _controllers = new List<TextController>();
+
+    public static void Bind()
+    {
+        for (int i = 0; i < _controllers.Count; i++)
+        {
+            if (_controllers[i] == null || _controllers[i].gameObject == null)
+                continue;
+
+            _controllers[i].DataBinding();
+        }
+    }
+
     private void Start()
     {
         _tmp = GetComponent<TextMeshProUGUI>();
+        _controllers.Add(this);
     }
 
     private void DataBinding()
@@ -38,12 +53,6 @@ public class TextController : MonoBehaviour, IBinder
                 }
             }
         }
-    }
-
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-            DataBinding();
     }
 
     public void OnChangedValue(object m_param)

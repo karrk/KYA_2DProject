@@ -101,10 +101,4 @@ public abstract class Character : MonoBehaviour
 
     public abstract void ApplyDeck(PlayerDeck m_deck);
     public abstract void ApplyDeck(MobDeck m_deck);
-
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(1))
-            this.AP.Value--;
-    }
 }

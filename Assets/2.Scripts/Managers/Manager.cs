@@ -123,6 +123,8 @@ public class Manager : MonoBehaviour
         Data.RegistInitCharacter(Data.v_data.PlayerData.SelectedCharacterID);
         // юс╫ц
 
+        TextController.Bind();
+
         Pool.CreatePool(E_PoolType.Deck);
     }
 
@@ -153,6 +155,7 @@ public class Manager : MonoBehaviour
                 break;
             case E_Scene.BattleScene:
                 Event.PlayEvent(E_Events.ChangedBattleScene);
+                TextController.Bind();
                 break;
             case E_Scene.BounsArea:
                 break;
