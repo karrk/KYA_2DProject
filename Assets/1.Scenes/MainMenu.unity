@@ -1440,6 +1440,7 @@ GameObject:
   - component: {fileID: 1065256814}
   - component: {fileID: 1065256816}
   - component: {fileID: 1065256815}
+  - component: {fileID: 1065256817}
   m_Layer: 5
   m_Name: T_ID
   m_TagString: Untagged
@@ -1487,7 +1488,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: tygk1
+  m_text: 123123
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2f8ab0e441ba7b149a4a0a331ce2bf56, type: 2}
   m_sharedMaterial: {fileID: 8210600950341072395, guid: 2f8ab0e441ba7b149a4a0a331ce2bf56,
@@ -1565,6 +1566,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1065256813}
   m_CullTransparentMesh: 1
+--- !u!114 &1065256817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1065256813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 797379d4e0db6734d884de19d72b00b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DBpropertyName: NickName
+  DBpropertyIdx: 2
 --- !u!1 &1143749679
 GameObject:
   m_ObjectHideFlags: 0
@@ -1833,6 +1848,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6eda758b6cfe614aa639979d8037bf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _floatParam: 0
+  _strParam: 
+  _selectedMethodName: 
 --- !u!1 &1540267411
 GameObject:
   m_ObjectHideFlags: 0
@@ -1992,6 +2010,7 @@ GameObject:
   - component: {fileID: 1792268364}
   - component: {fileID: 1792268366}
   - component: {fileID: 1792268365}
+  - component: {fileID: 1792268367}
   m_Layer: 5
   m_Name: P_TopPlayerInfo
   m_TagString: Untagged
@@ -2057,6 +2076,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1792268363}
   m_CullTransparentMesh: 1
+--- !u!114 &1792268367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792268363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6eda758b6cfe614aa639979d8037bf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _floatParam: 0
+  _strParam: 
+  _selectedMethodName: 
 --- !u!1 &2102398209
 GameObject:
   m_ObjectHideFlags: 0
@@ -2250,6 +2284,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6eda758b6cfe614aa639979d8037bf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _floatParam: 0
+  _strParam: 
+  _selectedMethodName: ExitGame
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

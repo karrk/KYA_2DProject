@@ -119,27 +119,14 @@ public class Manager : MonoBehaviour
         yield return Data.LoadData();
 
         // 임시
-        //PlayerCharacter character = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCharacter>();
         Data.RegistInitCharacter(Data.v_data.PlayerData.SelectedCharacterID);
         // 임시
 
         Pool.CreatePool(E_PoolType.Deck);
-
-        Event.PlayEvent(E_Events.ChangedBattleScene);
     }
 
     private void AddManagerEvent()
     {
-        //Event.AddListener(E_Events.ChangedBattleScene, this);
         Event.AddListener(E_Events.ChangedBattleScene,Data);
     }
-
-    //public void OnEvent(E_Events m_eventType, System.ComponentModel.Component m_order, object m_param)
-    //{
-    //    if(m_eventType == E_Events.ChangedBattleScene)
-    //    {
-    //        PlayerCharacter character = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCharacter>();
-    //        Data.RegistInitCharacter(character);
-    //    }
-    //}
 }
