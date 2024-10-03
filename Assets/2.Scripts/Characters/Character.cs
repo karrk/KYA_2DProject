@@ -47,6 +47,15 @@ public abstract class Character : MonoBehaviour
     private DBValue<int> _ap = new DBValue<int>();
     public DBValue<int> AP => _ap;
 
+    private DBValue<int> _def = new DBValue<int>();
+    public DBValue<int> Def => _def;
+
+    private DBValue<int> _alphaPower = new DBValue<int>();
+    public DBValue<int> AlphaPower => _alphaPower;
+
+    private bool _saveDef = false;
+    public bool SaveDef => _saveDef;
+
     protected virtual void Initialilze()
     {
         _anim = GetComponent<CharacterAnimator>();
@@ -67,7 +76,6 @@ public abstract class Character : MonoBehaviour
     protected abstract void DeadAction();
 
     protected abstract void ReadyCompleteAction();
-
 
     protected void MoveToReadyPos()
     {
@@ -97,7 +105,7 @@ public abstract class Character : MonoBehaviour
         this._ap.Value = _charInfo.AP;
     }
 
-    protected void AddAP(int m_value)
+    public void AddAP(int m_value)
     {
         this._ap.Value += m_value;
     }
@@ -107,6 +115,33 @@ public abstract class Character : MonoBehaviour
         this._name.Value = _charInfo.Name;
     }
 
-    public abstract void ApplyDeck(PlayerDeck m_deck);
-    public abstract void ApplyDeck(MobDeck m_deck);
+    protected void InitDef()
+    {
+        this._def.Value = 0;
+    }
+
+    public void AddDef(int m_value)
+    {
+        this._def.Value += m_value;
+    }
+
+    protected void InitAlphaAtk()
+    {
+        this._alphaPower.Value = 0;
+    }
+
+    public void AddAlphaAtk(int m_value)
+    {
+        this._alphaPower.Value += m_value;
+    }
+
+    protected void InitSaveDef()
+    {
+        this._saveDef = false;
+    }
+
+    public void SetSaveDef(bool m_active)
+    {
+        this._saveDef = m_active;
+    }
 }

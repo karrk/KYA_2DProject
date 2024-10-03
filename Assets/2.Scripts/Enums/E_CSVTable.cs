@@ -61,7 +61,7 @@ public enum E_PlayerDeckInfo
     Atk,
     Def,
     AddDeckCount,
-    Alpha,
+    AlphaPower,
     SelfAtk,
     SaveDef,
     Disappear,
@@ -113,7 +113,7 @@ public enum E_MonsterInfo
     Name,
     Level,
     HP,
-    StartDeck,
+    Patterns,
     AbilityPoint,
 }
 

@@ -6,7 +6,9 @@ public class InputControll : MonoBehaviour, IListener
 {
     [SerializeField] private bool _isDeckSelectMode;
     [SerializeField] private bool _isNoUseArea;
-    
+
+    public bool IsNoUseArea => _isNoUseArea;
+
     private bool _hitNoUseAreaFrame;
     private bool _hitMonsterFrame;
     private bool _hitDeckFrame;
@@ -111,39 +113,39 @@ public class InputControll : MonoBehaviour, IListener
         }
             
 
-        if(Input.GetMouseButtonDown(0))
-        {
-            if (_onCursorDeck == null)
-                return;
+        //if(Input.GetMouseButtonDown(0))
+        //{
+        //    if (_onCursorDeck == null)
+        //        return;
 
-            _selectedDeck = _onCursorDeck.GetComponent<PlayerDeck>();
-        }
-        else if(Input.GetMouseButtonUp(0) && ! _isNoUseArea && _selectedDeck != null)
-        {
-            if(_selectedDeck.UseType == E_DeckUseType.Targetting && _onCursorMob)
-            {
-                if(_onCursorMob.TryGetComponent<Monster>(out Monster target))
-                {
-                    target.ApplyDeck(_selectedDeck);
-                }
+        //    _selectedDeck = _onCursorDeck.GetComponent<PlayerDeck>();
+        //}
+        //else if(Input.GetMouseButtonUp(0) && ! _isNoUseArea && _selectedDeck != null)
+        //{
+        //    if(_selectedDeck.UseType == E_DeckUseType.Targetting && _onCursorMob)
+        //    {
+        //        if(_onCursorMob.TryGetComponent<Monster>(out Monster target))
+        //        {
+        //            target.ApplyDeck(_selectedDeck);
+        //        }
                     
-            }
-            else if(_selectedDeck.UseType == E_DeckUseType.NonTarget) // ≥Ì≈∏∞Ÿ
-            {
-                Monster[] mobs = Manager.Instance.Data.v_data.MonstersDatas;
+        //    }
+        //    else if(_selectedDeck.UseType == E_DeckUseType.NonTarget) // ≥Ì≈∏∞Ÿ
+        //    {
+        //        Monster[] mobs = Manager.Instance.Data.v_data.MonstersDatas;
 
-                for (int i = 1; i < mobs.Length; i++)
-                {
-                    mobs[i].ApplyDeck(_selectedDeck);
-                }
-            }
-            else if(_selectedDeck.UseType == E_DeckUseType.Self)
-            {
-                Manager.Instance.Data.v_data.CurrentCharacter.ApplyDeck(_selectedDeck);
-            }
+        //        for (int i = 1; i < mobs.Length; i++)
+        //        {
+        //            mobs[i].ApplyDeck(_selectedDeck);
+        //        }
+        //    }
+        //    else if(_selectedDeck.UseType == E_DeckUseType.Self)
+        //    {
+        //        Manager.Instance.Data.v_data.CurrentCharacter.ApplyDeck(_selectedDeck);
+        //    }
 
-            _selectedDeck = null;
-        }
+        //    _selectedDeck = null;
+        //}
     }
 
 

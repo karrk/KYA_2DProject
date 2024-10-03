@@ -71,18 +71,4 @@ public class PlayerCharacter : Character, IListener, IWaiter
     {
         Manager.Instance.Wait.SendFinishSign(m_finEvent);
     }
-
-    public override void ApplyDeck(PlayerDeck m_deck)
-    {
-        // 플레이어 => 플레이어 자기 자신에게
-
-    }
-
-    public override void ApplyDeck(MobDeck m_deck)
-    {
-        // 몬스터 => 플레이어 몬스터 덱의 영향
-
-    }
-
-    
 }

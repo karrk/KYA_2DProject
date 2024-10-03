@@ -36,6 +36,9 @@ public class DataManager : IListener
     public float DeckAvoidSpeed = 0.1f;
     public float DeckFocusDist => 1f;
 
+    private int _currentRound = 0;
+    public int CurrentRound => _currentRound;
+
     #region CSV ฐüทร
 
     private string GetAddreass(string m_range, int m_sheetId)
@@ -285,7 +288,7 @@ public class DataManager : IListener
                 newMob.Level = int.Parse(datas[(int)E_MonsterInfo.Level]);
                 newMob.HP = int.Parse(datas[(int)E_MonsterInfo.HP]);
                 newMob.StartDecks = new System.Collections.Generic.List<int>();
-                string[] decks = datas[(int)E_MonsterInfo.StartDeck].Split(';');
+                string[] decks = datas[(int)E_MonsterInfo.Patterns].Split(';');
 
                 for (int j = 0; j < decks.Length; j++)
                 {
@@ -319,7 +322,7 @@ public class DataManager : IListener
                 newDeck.Atk = int.Parse(datas[(int)E_PlayerDeckInfo.Atk]);
                 newDeck.Def = int.Parse(datas[(int)E_PlayerDeckInfo.Def]);
                 newDeck.AddDeckCount = int.Parse(datas[(int)E_PlayerDeckInfo.AddDeckCount]);
-                newDeck.AlphaAtk = int.Parse(datas[(int)E_PlayerDeckInfo.Alpha]);
+                newDeck.AlphaAtk = int.Parse(datas[(int)E_PlayerDeckInfo.AlphaPower]);
                 newDeck.SelfAtk = int.Parse(datas[(int)E_PlayerDeckInfo.SelfAtk]);
 
                 newDeck.SaveDef = datas[(int)E_PlayerDeckInfo.SaveDef] == "1" ? true : false;
@@ -398,7 +401,14 @@ public class DataManager : IListener
         if(m_eventType == E_Events.ChangedBattleScene)
         {
             if (CheckSpawnPostionValue())
+            {
                 GetPostionDatas();
+                _currentRound = 0;
+            }
+        }
+        else if(m_eventType == E_Events.EnmyTurnEnd)
+        {
+            _currentRound++;
         }
     }
 

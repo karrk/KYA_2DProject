@@ -26,7 +26,8 @@ public enum E_Events
     EnemyTurn,
 
     PlayerTurnEnd,
-    
+    EnmyTurnEnd,
+
     StageClear,
     StageFail,
 
