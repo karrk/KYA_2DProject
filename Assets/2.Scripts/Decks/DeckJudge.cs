@@ -23,9 +23,6 @@ public class DeckJudge
     {
         E_DeckUseType useType = m_deckData.UseType;
 
-        //if(Manager.Instance.Data.v_data.PlayerDeckController.IsNo)
-        // 마우스가 nousearea 인지 확인
-
         switch (useType)
         {
             case E_DeckUseType.NonTarget:
@@ -75,10 +72,14 @@ public class DeckJudge
         if (m_target != null)
             m_target.AddHP(m_value);
         else
-            foreach (var mob in Manager.Instance.Data.v_data.MonstersDatas)
+        {
+            Monster[] mobs = Manager.Instance.Data.v_data.MonstersDatas;
+
+            for (int i = 1; i < mobs.Length; i++)
             {
-                mob.AddHP(m_value);
+                mobs[i].AddHP(m_value);
             }
+        }
     }
 
     //private static bool UseDeckToPlayer
