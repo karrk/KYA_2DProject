@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class InputControll : MonoBehaviour, IListener
+[System.Serializable]
+public class InputManager : IListener
 {
     [SerializeField] private bool _isDeckSelectMode;
     [SerializeField] private bool _isNoUseArea;
-
-    public bool IsNoUseArea => _isNoUseArea;
 
     private bool _hitNoUseAreaFrame;
     private bool _hitMonsterFrame;
@@ -24,12 +21,6 @@ public class InputControll : MonoBehaviour, IListener
 
     private bool _isDeckLogicComplete;
 
-    private void Start()
-    {
-        Manager.Instance.Event.AddListener(E_Events.PlayerTurn, this);
-        Manager.Instance.Event.AddListener(E_Events.PlayerTurnEnd, this);
-    }
-
     public void OnEvent(E_Events m_eventType, System.ComponentModel.Component m_order, object m_param)
     {
         if(m_eventType == E_Events.PlayerTurn)
@@ -43,7 +34,7 @@ public class InputControll : MonoBehaviour, IListener
         }
     }
 
-    private void Update()
+    public void Update()
     {
         if (!_isDeckSelectMode)
             return;
@@ -111,26 +102,30 @@ public class InputControll : MonoBehaviour, IListener
                 _lastDeck = null;
             }
         }
-            
 
-        //if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
+            LeftButtonDownLogic();
+        else if (Input.GetMouseButtonUp(0))
+            LeftButtonUpLogic();
+
+        //if (Input.GetMouseButtonDown(0))
         //{
         //    if (_onCursorDeck == null)
         //        return;
 
         //    _selectedDeck = _onCursorDeck.GetComponent<PlayerDeck>();
         //}
-        //else if(Input.GetMouseButtonUp(0) && ! _isNoUseArea && _selectedDeck != null)
+        //else if (Input.GetMouseButtonUp(0) && !_isNoUseArea && _selectedDeck != null)
         //{
-        //    if(_selectedDeck.UseType == E_DeckUseType.Targetting && _onCursorMob)
+        //    if (_selectedDeck.UseType == E_DeckUseType.Targetting && _onCursorMob)
         //    {
-        //        if(_onCursorMob.TryGetComponent<Monster>(out Monster target))
+        //        if (_onCursorMob.TryGetComponent<Monster>(out Monster target))
         //        {
         //            target.ApplyDeck(_selectedDeck);
         //        }
-                    
+
         //    }
-        //    else if(_selectedDeck.UseType == E_DeckUseType.NonTarget) // ≥Ì≈∏∞Ÿ
+        //    else if (_selectedDeck.UseType == E_DeckUseType.NonTarget) // ≥Ì≈∏∞Ÿ
         //    {
         //        Monster[] mobs = Manager.Instance.Data.v_data.MonstersDatas;
 
@@ -139,7 +134,7 @@ public class InputControll : MonoBehaviour, IListener
         //            mobs[i].ApplyDeck(_selectedDeck);
         //        }
         //    }
-        //    else if(_selectedDeck.UseType == E_DeckUseType.Self)
+        //    else if (_selectedDeck.UseType == E_DeckUseType.Self)
         //    {
         //        Manager.Instance.Data.v_data.CurrentCharacter.ApplyDeck(_selectedDeck);
         //    }
@@ -148,5 +143,29 @@ public class InputControll : MonoBehaviour, IListener
         //}
     }
 
+    private void LeftButtonDownLogic()
+    {
+        if (_onCursorDeck == null)
+            return;
+
+        _selectedDeck = _onCursorDeck.GetComponent<PlayerDeck>();
+    }
+
+    private void LeftButtonUpLogic()
+    {
+        if (_isNoUseArea)
+        {
+            _selectedDeck = null;
+            return;
+        }
+
+        DeckJudge.UseDeck(
+            Manager.Instance.Data.v_data.CurrentCharacter,
+            _selectedDeck.ID,
+            _onCursorMob == null ? null : _onCursorMob.GetComponent<Monster>()
+            );
+
+        _selectedDeck = null;
+    }
 
 }

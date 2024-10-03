@@ -94,6 +94,18 @@ public class Manager : MonoBehaviour
         }
     }
 
+    [SerializeField] private InputManager _input = null;
+    public InputManager Input
+    {
+        get
+        {
+            if (_input == null)
+                _input = new InputManager();
+
+            return _input;
+        }
+    }
+
     #endregion
 
     private void Awake()
@@ -115,6 +127,11 @@ public class Manager : MonoBehaviour
         StartCoroutine(StepInit());
     }
 
+    private void Update()
+    {
+        Input.Update();
+    }
+
     private IEnumerator StepInit()
     {
         yield return Data.LoadData();
@@ -131,6 +148,8 @@ public class Manager : MonoBehaviour
     private void AddManagerEvent()
     {
         Event.AddListener(E_Events.ChangedBattleScene,Data);
+        Event.AddListener(E_Events.PlayerTurn, Input);
+        Event.AddListener(E_Events.PlayerTurnEnd, Input);
     }
 
     public void SceneLoad(int m_sceneNumber)
