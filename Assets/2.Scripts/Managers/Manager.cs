@@ -119,13 +119,13 @@ public class Manager : MonoBehaviour
     {
         yield return Data.LoadData();
 
+        Pool.Initialize();
+
         // 임시
         Data.RegistInitCharacter(Data.v_data.PlayerData.SelectedCharacterID);
         // 임시
 
         TextController.Bind();
-
-        Pool.CreatePool(E_PoolType.Deck);
     }
 
     private void AddManagerEvent()

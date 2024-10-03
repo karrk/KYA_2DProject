@@ -1,22 +1,27 @@
+using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class PoolManager
 {
-    private const string PrefabsPath = "Assets/3.Prefabs/PooledObj";
+    private const string PrefabsPath = "Assets/3.Prefabs/PooledObj/";
 
     private Dictionary<E_PoolType, ObjectPool> _pools;
     private IPooledObject[] _prefabs;
 
     public ObjectPool GetPool(E_PoolType m_type) { return _pools[m_type]; }
 
-    public PoolManager()
+    public void Initialize()
     {
         _pools = new Dictionary<E_PoolType, ObjectPool>();
         _prefabs = new IPooledObject[(int)E_PoolType.Size];
 
-        RegistPrefabs();
+        for (int i = 0; i < (int)E_PoolType.Size; i++)
+        {
+            Manager.Instance.StartCoroutine(LoadPrefab((E_PoolType)i));
+        }
     }
 
     public void CreatePool(E_PoolType m_type)
@@ -34,13 +39,13 @@ public class PoolManager
         return this._pools[m_type].GetObj();
     }
 
-    private void RegistPrefabs()
+    private void RegistPrefabs(GameObject m_obj)
     {
+        IPooledObject obj = m_obj.GetComponent<IPooledObject>();
+
         for (int i = 0; i < _prefabs.Length; i++)
         {
-            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{PrefabsPath}/{(E_PoolType)i}.prefab");
-
-            _prefabs[i] = prefab.GetComponent<IPooledObject>();
+            _prefabs[i] = obj;
         }
     }
 
@@ -48,4 +53,21 @@ public class PoolManager
     {
         return _prefabs[(int)m_type];
     }
+
+    private IEnumerator LoadPrefab(E_PoolType m_poolObjectType)
+    {
+        AsyncOperationHandle<GameObject> load 
+            = Addressables.LoadAssetAsync<GameObject>($"{PrefabsPath}{m_poolObjectType}.prefab");
+
+        yield return load;
+
+        if (load.Status == AsyncOperationStatus.Failed)
+        {
+            Debug.Log("프리팹을 불러올 수 없음");
+        }
+        RegistPrefabs(load.Result);
+
+        CreatePool(m_poolObjectType);
+    }
+
 }
