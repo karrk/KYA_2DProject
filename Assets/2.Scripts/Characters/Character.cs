@@ -1,12 +1,10 @@
-using UnityEditor.Animations;
 using UnityEngine;
 using DG.Tweening;
-using System;
 
 public abstract class Character : MonoBehaviour
 {
     [SerializeField] protected CharacterInfo _charInfo;
-    private Animator _anim;
+    private CharacterAnimator _anim;
 
     protected abstract Vector2 SpawnPos { get; }
     protected abstract Vector2 ReadyPos { get; }
@@ -51,16 +49,13 @@ public abstract class Character : MonoBehaviour
 
     protected virtual void Initialilze()
     {
-        _anim = GetComponent<Animator>();
+        _anim = GetComponent<CharacterAnimator>();
+
         InitHP();
         InitAP();
         SetName();
-    }
 
-    protected void ConnectAnimatorController()
-    {
-        _anim.runtimeAnimatorController =
-            Resources.Load<AnimatorController>($"Animators/{_charInfo.Name}");
+        _anim.ConnectAnimator(this.Name.Value);
     }
 
     protected abstract void IdelAction();
@@ -76,12 +71,13 @@ public abstract class Character : MonoBehaviour
 
     protected void MoveToReadyPos()
     {
-        _anim.SetBool("IsWalk", true);
+        _anim.SetAnimParameter(E_AnimParams.IsWalk);
+
         transform.position = SpawnPos;
         transform.DOMove(ReadyPos, 4f).SetEase(Ease.Linear)
             .OnComplete(() => 
-            { 
-                _anim.SetBool("IsWalk", false);
+            {
+                _anim.SetAnimParameter(E_AnimParams.IsWalk, false);
                 State = E_CharacterState.ReadyComplete;
             });
     }

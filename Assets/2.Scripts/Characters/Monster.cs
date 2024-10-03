@@ -23,7 +23,6 @@ public class Monster : Character
 
     public void MobReady()
     {
-        base.ConnectAnimatorController();
         base.MoveToReadyPos();
     }
 

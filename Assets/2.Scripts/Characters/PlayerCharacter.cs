@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCharacter : Character, IListener, IWaiter
@@ -35,7 +33,6 @@ public class PlayerCharacter : Character, IListener, IWaiter
 
     private void Ready()
     {
-        base.ConnectAnimatorController();
         base.MoveToReadyPos();
     }
 

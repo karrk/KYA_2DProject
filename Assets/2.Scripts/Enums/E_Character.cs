@@ -12,3 +12,12 @@ public enum E_CharacterState
     OnDamage,
     Dead,
 }
+
+public enum E_AnimParams
+{
+    None,
+    Attack,
+    OnDamage,
+    IsWalk,
+    IsDead,
+}
