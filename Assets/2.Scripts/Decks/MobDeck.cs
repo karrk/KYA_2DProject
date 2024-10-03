@@ -13,7 +13,7 @@ public class MobDeck : Deck
     public override int Heal => Manager.Instance.Data.GetMobDeckData(ID).Heal;
 
     public int NextTurnPlusPower => Manager.Instance.Data.GetMobDeckData(ID).NextTurnPlusPower;
-    public float DecreasePowerPercent => Manager.Instance.Data.GetMobDeckData(ID).DecreasePowerPercent;
+    public float DecreasePowerPercent => Manager.Instance.Data.GetMobDeckData(ID).DecreasePowerTurns;
     public int[] N_turnAction => Manager.Instance.Data.GetMobDeckData(ID).N_turnAction;
     public int SteelGold => Manager.Instance.Data.GetMobDeckData(ID).SteelGold;
     public bool Runaway => Manager.Instance.Data.GetMobDeckData(ID).Runaway;

@@ -8,24 +8,26 @@ public class MonstersController : MonoBehaviour, IListener, IWaiter
 
     private Monster[] _monsters;
     public int MonsterCount => _monsters.Length - 1;
+    private WaitForSeconds _actionIntervalTime;
 
     private void Start()
     {
         Manager.Instance.Event.AddListener(E_Events.ChangedBattleScene,this);
-        //Manager.Instance.Event.AddListener(E_Events.BattleReady,this);
-
+        Manager.Instance.Event.AddListener(E_Events.EnemyTurn, this);
         Manager.Instance.Data.v_data.CurrentMobsController = this;
 
         Manager.Instance.Wait.AddWaiter(E_Events.ChangedBattleScene, this);
+
+        _actionIntervalTime = new WaitForSeconds(Manager.Instance.Data.MonsterActionInterval);
     }
 
     public void OnEvent(E_Events m_eventType, System.ComponentModel.Component m_order, object m_param)
     {
         if (m_eventType == E_Events.ChangedBattleScene)
             InitMonsters();
-        //else if (m_eventType == E_Events.BattleReady)
-        //    ReadyMonsters();
 
+        else if (m_eventType == E_Events.EnemyTurn)
+            StartCoroutine(StepStartPattern());
     }
 
     private void ReadyMonsters()
@@ -96,6 +98,28 @@ public class MonstersController : MonoBehaviour, IListener, IWaiter
             mob.gameObject.SetActive(true);
             Manager.Instance.Data.v_data.MonstersDatas[i + 1] = mob.GetComponent<Monster>();
         }
+    }
+
+    private IEnumerator StepStartPattern()
+    {
+        int currentRound = Manager.Instance.Data.CurrentRound;
+
+        for (int i = 1; i < _monsters.Length; i++)
+        {
+            int currentMobID = _monsters[i].MobID;
+            int deckID = Manager.Instance.Data.GetMobData(currentMobID).Patterns[currentRound];
+
+            DeckJudge.UseDeck(_monsters[i], deckID);
+
+            Debug.Log("¹º°¡ È°µ¿ÇÔ");
+
+            yield return _actionIntervalTime;
+        }
+
+        yield return _actionIntervalTime;
+
+        Manager.Instance.Event.PlayEvent(E_Events.EnmyTurnEnd);
+        Manager.Instance.Event.PlayEvent(E_Events.PlayerTurn);
     }
 
     private void OnDisable()

@@ -29,7 +29,7 @@ public class DataManager : IListener
     
     public int DeckInitSortValue = 10;
     public uint DeckMaskLayerNumber = 1<<9;
-    public float DeckMoveAnimTime => 0.5f;
+    public float DeckMoveAnimTime => 0.35f;
     public float DeckWidth => 1.5f;
     public float DeckPullCoolTime => 0.2f;
     public float DeckAvoidMoveDist = 1f;
@@ -38,6 +38,8 @@ public class DataManager : IListener
 
     private int _currentRound = 0;
     public int CurrentRound => _currentRound;
+
+    public float MonsterActionInterval = 1f;
 
     #region CSV ฐüทร
 
@@ -287,12 +289,12 @@ public class DataManager : IListener
                 newMob.Name = datas[(int)E_MonsterInfo.Name];
                 newMob.Level = int.Parse(datas[(int)E_MonsterInfo.Level]);
                 newMob.HP = int.Parse(datas[(int)E_MonsterInfo.HP]);
-                newMob.StartDecks = new System.Collections.Generic.List<int>();
+                newMob.Patterns = new System.Collections.Generic.List<int>();
                 string[] decks = datas[(int)E_MonsterInfo.Patterns].Split(';');
 
                 for (int j = 0; j < decks.Length; j++)
                 {
-                    newMob.StartDecks.Add(int.Parse(decks[j]));
+                    newMob.Patterns.Add(int.Parse(decks[j]));
                 }
 
                 newMob.AbilityPoint = int.Parse(datas[(int)E_MonsterInfo.AbilityPoint]);
@@ -352,7 +354,13 @@ public class DataManager : IListener
                 newDeck.Atk = int.Parse(datas[(int)E_MobDeckInfo.Atk]);
                 newDeck.Def = int.Parse(datas[(int)E_MobDeckInfo.Def]);
                 newDeck.NextTurnPlusPower = int.Parse(datas[(int)E_MobDeckInfo.NextTurnPlusPower]);
-                newDeck.DecreasePowerPercent = float.Parse(datas[(int)E_MobDeckInfo.DecreasePowerPercent]);
+                newDeck.DecreasePowerTurns = int.Parse(datas[(int)E_MobDeckInfo.DecreasePowerTurns]);
+
+                string[] plusDecks = datas[(int)E_MobDeckInfo.PushDecks].Split(';');
+                newDeck.PushDecks = new int[plusDecks.Length];
+
+                for (int j = 0; j < plusDecks.Length; j++)
+                { newDeck.PushDecks[j] = int.Parse(plusDecks[j]); }
 
                 string[] nTurnDatas = datas[(int)E_MobDeckInfo.N_TurnAction].Split(';');
                 newDeck.N_turnAction = new int[nTurnDatas.Length];

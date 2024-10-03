@@ -9,11 +9,11 @@ public class DeckJudge
             PlayerDeckStruct playerDeckData = Manager.Instance.Data.GetPlayerDeckData(m_deckId);
             return UseDeckToMonster(player, playerDeckData, m_target as Monster);
         }
-        //else if(m_user is Monster mob)
-        //{
-        //    MobDeckStruct mobDeckData = Manager.Instance.Data.GetMobDeckData(m_deckId);
-        //    return UseDeckToPlayer(mob, mobDeckData, m_target as PlayerCharacter);
-        //}
+        else if (m_user is Monster mob)
+        {
+            MobDeckStruct mobDeckData = Manager.Instance.Data.GetMobDeckData(m_deckId);
+            UseDeckToPlayer(mob, mobDeckData);
+        }
 
         return false;
     }
@@ -82,12 +82,23 @@ public class DeckJudge
         }
     }
 
-    //private static bool UseDeckToPlayer
-    //    (Monster m_user,MobDeckStruct m_deckData, PlayerCharacter m_target)
-    //{
-    //    E_DeckType baseType = m_deckData.Type;
-    //    E_DeckUseType useType = m_deckData.UseType;
-    //}
+    private static void UseDeckToPlayer(Monster m_user, MobDeckStruct m_deckData)
+    {
+        PlayerCharacter target = Manager.Instance.Data.v_data.CurrentCharacter;
+
+        ApplyHP(m_deckData.Atk, target);
+        m_user.AddDef(m_deckData.Def);
+        m_user.AddNextTurnPlusPower(m_deckData.NextTurnPlusPower);
+        target.AddDecreasePowerTurns(m_deckData.DecreasePowerTurns);
+        // 플레이어 카드 밀어넣기
+        // n 턴뒤 발생
+
+        Manager.Instance.Data.v_data.PlayerData.TotalGold.Value -= m_deckData.SteelGold;
+        Mathf.Clamp(Manager.Instance.Data.v_data.PlayerData.TotalGold.Value,
+            0, Manager.Instance.Data.v_data.PlayerData.TotalGold.Value);
+
+        // 도주
+    }
 
 
 

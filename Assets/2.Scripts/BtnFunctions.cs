@@ -4,9 +4,12 @@ using UnityEngine.SceneManagement;
 public class BtnFunctions
 {
     public static void NoneAction() { Debug.Log("BTN : NoneAction"); }
+    
     public static void ExitPlayerTurn()
     {
         Manager.Instance.Event.PlayEvent(E_Events.PlayerTurnEnd);
+
+        Manager.Instance.Event.PlayEvent(E_Events.EnemyTurn);
     }
 
     public static void ExitGame()

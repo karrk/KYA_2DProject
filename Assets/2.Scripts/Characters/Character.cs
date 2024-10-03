@@ -53,6 +53,9 @@ public abstract class Character : MonoBehaviour
     private DBValue<int> _alphaPower = new DBValue<int>();
     public DBValue<int> AlphaPower => _alphaPower;
 
+    private DBValue<int> _decreasePowerTurns = new DBValue<int>();
+    public DBValue<int> DecreasePowerTurns => _decreasePowerTurns;
+
     private bool _saveDef = false;
     public bool SaveDef => _saveDef;
 
@@ -143,5 +146,15 @@ public abstract class Character : MonoBehaviour
     public void SetSaveDef(bool m_active)
     {
         this._saveDef = m_active;
+    }
+
+    protected void InitDecreasePowerTurns()
+    {
+        this.DecreasePowerTurns.Value = 0;
+    }
+
+    public void AddDecreasePowerTurns(int m_value)
+    {
+        this.DecreasePowerTurns.Value += m_value;
     }
 }

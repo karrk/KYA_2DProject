@@ -18,7 +18,7 @@ public struct MonsterStruct
     public string Name;
     public int Level;
     public int HP;
-    public List<int> StartDecks;
+    public List<int> Patterns;
     public int AbilityPoint;
 }
 
@@ -53,7 +53,8 @@ public struct MobDeckStruct
     public int Atk;
     public int Def;
     public int NextTurnPlusPower;
-    public float DecreasePowerPercent;
+    public int DecreasePowerTurns;
+    public int[] PushDecks;
     public int[] N_turnAction;
     public int SteelGold;
     public bool Runaway;

@@ -12,6 +12,9 @@ public class Monster : Character
     private Vector2 _spawnPos;
     private Vector2 _readyPos;
 
+    private DBValue<int> _nextTurnPlusPower = new DBValue<int>();
+    public DBValue<int> NextTurnPlusPower => _nextTurnPlusPower;
+
     public void MobInitialize(int m_mobId)
     {
         _charInfo = new MobInfo();
@@ -52,5 +55,15 @@ public class Monster : Character
     protected override void OnDamageAction()
     {
         throw new System.NotImplementedException();
+    }
+
+    private void InitNextTurnPlusPower()
+    {
+        this._nextTurnPlusPower.Value = 0;
+    }
+
+    public void AddNextTurnPlusPower(int m_value)
+    {
+        this._nextTurnPlusPower.Value += m_value;
     }
 }

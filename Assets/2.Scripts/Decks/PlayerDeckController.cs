@@ -6,6 +6,7 @@ public class PlayerDeckController : MonoBehaviour, IListener
 {
     private PlayerDeckCreator _creator;
     private PlayerDeckMover _mover;
+    private DeckArranger _arranger;
 
     private int PullDeckCount => Manager.Instance.Data.v_data.CurrentCharacter.PullDeckCount;
     private int AP => Manager.Instance.Data.v_data.CurrentCharacter.AP.Value;
@@ -32,6 +33,7 @@ public class PlayerDeckController : MonoBehaviour, IListener
 
         Manager.Instance.Data.v_data.PlayerDeckController = this;
 
+        _arranger = GetComponent<DeckArranger>();
         _creator = GetComponent<PlayerDeckCreator>();
         _mover = GetComponent<PlayerDeckMover>();
 
@@ -42,6 +44,8 @@ public class PlayerDeckController : MonoBehaviour, IListener
     {
         if(m_eventType == E_Events.PlayerTurn)
         {
+            _arranger.ClearDecks();
+            
             if(_WaitToHandRoutine != null) { StopCoroutine(_WaitToHandRoutine); }
 
             _lastHandIdx = 0;
@@ -110,7 +114,7 @@ public class PlayerDeckController : MonoBehaviour, IListener
     /// </summary>
     private void HandToGrave(int m_onHandIdx)
     {
-        _graves.Add(_waitDecks[m_onHandIdx]);
+        _graves.Add(_onHands[m_onHandIdx]);
         _onHands.RemoveAt(m_onHandIdx);
 
         PlayerDeck deck = _realizeDecks[m_onHandIdx];

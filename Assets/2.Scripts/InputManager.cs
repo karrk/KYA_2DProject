@@ -107,40 +107,6 @@ public class InputManager : IListener
             LeftButtonDownLogic();
         else if (Input.GetMouseButtonUp(0))
             LeftButtonUpLogic();
-
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    if (_onCursorDeck == null)
-        //        return;
-
-        //    _selectedDeck = _onCursorDeck.GetComponent<PlayerDeck>();
-        //}
-        //else if (Input.GetMouseButtonUp(0) && !_isNoUseArea && _selectedDeck != null)
-        //{
-        //    if (_selectedDeck.UseType == E_DeckUseType.Targetting && _onCursorMob)
-        //    {
-        //        if (_onCursorMob.TryGetComponent<Monster>(out Monster target))
-        //        {
-        //            target.ApplyDeck(_selectedDeck);
-        //        }
-
-        //    }
-        //    else if (_selectedDeck.UseType == E_DeckUseType.NonTarget) // ≥Ì≈∏∞Ÿ
-        //    {
-        //        Monster[] mobs = Manager.Instance.Data.v_data.MonstersDatas;
-
-        //        for (int i = 1; i < mobs.Length; i++)
-        //        {
-        //            mobs[i].ApplyDeck(_selectedDeck);
-        //        }
-        //    }
-        //    else if (_selectedDeck.UseType == E_DeckUseType.Self)
-        //    {
-        //        Manager.Instance.Data.v_data.CurrentCharacter.ApplyDeck(_selectedDeck);
-        //    }
-
-        //    _selectedDeck = null;
-        //}
     }
 
     private void LeftButtonDownLogic()
